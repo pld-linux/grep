@@ -5,7 +5,7 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5a
-Release:	2
+Release:	3
 License:	GPL
 Group:		Utilities/Text
 Group(fr):	Utilitaires/Texte
@@ -20,10 +20,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_exec_prefix	/
 
 %description
-The GNU versions of commonly used grep utilities.  Grep searches one or
-more input files for lines which contain a match to a specified pattern and
-then prints the matching lines. GNU's grep utilities include grep, egrep
-and fgrep.
+The GNU versions of commonly used grep utilities. Grep searches one or more
+input files for lines which contain a match to a specified pattern and then
+prints the matching lines. GNU's grep utilities include grep, egrep and
+fgrep.
 
 %description -l de
 Die GNU-Versionen der häufig benutzten grep-Utilities. Grep durchsucht eine
@@ -32,7 +32,7 @@ passen, und zeigt dann die entsprechenden Zeilen an. GNUs grep enthält
 grep, egrep und fgrep.
 
 %description -l fr
-Ceci est l'implémentation par GNU du  populaire l'utilitaire grep su *nix.
+Ceci est l'implémentation par GNU du populaire l'utilitaire grep su *nix.
 Il permet de localiser rapidement des chaînes de caractéres dans les
 fichiers.
 
