@@ -2,7 +2,7 @@
 Summary:	GNU grep Utilities
 Summary(de):	GNU-Version der Pattern-Matching-Utilities
 Summary(fr):	Utilitaires grep de GNU
-Summary(pl):	GNU grep 
+Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5e
@@ -42,7 +42,7 @@ Ceci est l'implémentation par GNU du populaire l'utilitaire grep su
 Unix. Il permet de localiser rapidement des chaînes de caractéres dans
 les fichiers.
 
-%description -l pl 
+%description -l pl
 GNU grep jest implementacj± popularnego programu uniksowego `grep'.
 Grep jest jednym z podstawowych narzêdzi, korzysta z niego prawie
 ka¿dy skrypt shella.
