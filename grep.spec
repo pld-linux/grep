@@ -10,8 +10,8 @@ Summary(tr):	Dosyalarda katar arama aracЩ
 Summary(uk):	Утил╕ти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.1
-Release:	3
-Epoch:		1
+Release:	4
+Epoch:		2
 License:	GPL
 Group:		Applications/Text
 Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
@@ -95,8 +95,6 @@ echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/fgrep.1
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
-gzip -9nf NEWS README ChangeLog TODO
-
 %find_lang %{name}
 
 %clean
@@ -110,7 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc *.gz
+%doc NEWS README ChangeLog TODO
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 %lang(de) %{_mandir}/de/man1/*
