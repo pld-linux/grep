@@ -6,13 +6,14 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5.1
-Release:	1
+Release:	2
 Epoch:		1
 License:	GPL
 Group:		Applications/Text
 Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
+Patch1:		%{name}-egrep.pach
 %{?_with_pcre:BuildRequires:	pcre-devel}
 %{?_with_pcre:Requires:	pcre}
 BuildRequires:	gettext-devel
@@ -51,6 +52,7 @@ kullanýlýr.
 %prep
 %setup  -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %ifarch sparc sparc64
