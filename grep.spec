@@ -25,6 +25,7 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-egrep.patch
 Patch2:		%{name}-locale-names.patch
+URL:		http://www.gnu.org/software/grep/grep.html
 %{?with_pcre:BuildRequires:	pcre-devel}
 BuildRequires:	gettext-devel
 BuildRequires:	automake
