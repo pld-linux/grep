@@ -1,0 +1,16 @@
+--- ./src/Makefile.am.org	Tue Mar 26 16:49:46 2002
++++ ./src/Makefile.am	Tue Apr 30 16:23:19 2002
+@@ -20,11 +20,11 @@
+ 
+ egrep:
+ 	echo '#!/bin/sh' >$@
+-	echo 'exec grep -E $${1+"$$@"}' >>$@
++	echo 'exec /bin/grep -E $${1+"$$@"}' >>$@
+ 	chmod a+x $@
+ 
+ fgrep:
+ 	echo '#!/bin/sh' >$@
+-	echo 'exec grep -F $${1+"$$@"}' >>$@
++	echo 'exec /bin/grep -F $${1+"$$@"}' >>$@
+ 	chmod a+x $@
+ 
