@@ -14,6 +14,7 @@ Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	grep.1.pl
 Patch0:		grep-info.patch
 BuildRequires:	pcre-devel
+Requires:	pcre
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
