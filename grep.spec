@@ -6,7 +6,7 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5e
-Release:	2
+Release:	3
 Epoch:		1
 License:	GPL
 Group:		Applications/Text
@@ -17,6 +17,7 @@ Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	%{name}.1.pl
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-m4.patch
+Patch2:		%{name}-ac25x.patch
 %{?bcond_on_pcre:BuildRequires:	pcre-devel}
 %{?bcond_on_pcre:Requires:	pcre}
 BuildRequires:	automake
@@ -40,8 +41,8 @@ enthält grep, egrep und fgrep.
 
 %description -l fr
 Ceci est l'implémentation par GNU du populaire l'utilitaire grep su
-Unix. Il permet de localiser rapidement des chaînes de caractéres
-dans les fichiers.
+Unix. Il permet de localiser rapidement des chaînes de caractéres dans
+les fichiers.
 
 %description -l pl 
 GNU grep jest implementacj± popularnego programu unixowego `grep'.
@@ -57,9 +58,10 @@ kullanýlýr.
 %setup  -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
-rm missing
+rm -f missing m4/{largefile,error,gettext,lcmessage,progtest}.m4
 gettextize --force --copy
 aclocal
 autoconf
