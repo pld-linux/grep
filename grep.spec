@@ -85,10 +85,10 @@ gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/*info*,%{_mandir}/{man1/*,pl/man1/*}} \
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%{_sbindir}/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %postun
-%{_sbindir}/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
