@@ -15,8 +15,6 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-info.patch
 %{?_with_pcre:BuildRequires:	pcre-devel}
 %{?_with_pcre:Requires:	pcre}
-BuildRequires:	automake
-BuildRequires:	autoconf
 BuildRequires:	gettext-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -53,12 +51,8 @@ kullanýlýr.
 %prep
 %setup  -q
 %patch0 -p1
-#%patch1 -p1
-#%patch2 -p1
 
 %build
-rm -f missing m4/{largefile,error,gettext,lcmessage,progtest}.m4
-
 %ifarch sparc sparc64
 CPPFLAGS=""
 export CPPFLAGS
