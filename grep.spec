@@ -37,12 +37,13 @@ Bu, bütün Unix'lerde bulunan ve yaygýn olarak kullanýlan grep aracýnýn GNU
 sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada kullanýlýr.
 
 %prep
-%setup -q
+%setup  -q
 %patch0 -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
-./configure %{_target} \
+autoconf
+gettextize --copy --force
+%configure \
 	--prefix=/usr \
 	--exec-prefix=/
 make 
@@ -52,8 +53,9 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_mandir}/pl/man1
 
 make install \
-    prefix=$RPM_BUILD_ROOT/usr \
-    exec_prefix=$RPM_BUILD_ROOT
+	bindir=$RPM_BUILD_ROOT/bin \
+	infodir=$RPM_BUILD_ROOT%{_infodir} \
+	mandir=$RPM_BUILD_ROOT%{_mandir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/pl/man1/grep.1
 
@@ -63,8 +65,10 @@ echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/fgrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/pl/man1/egrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/pl/man1/fgrep.1
 
-gzip -9nf $RPM_BUILD_ROOT/usr/{info/*info*,man/{man1/*,pl/man1/*}} \
+gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/*info*,%{_mandir}/{man1/*,pl/man1/*}} \
 	NEWS README ChangeLog TODO
+
+%find_lang grep
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -77,21 +81,10 @@ if [ "$1" = "0" ]; then
 	/sbin/install-info --delete %{_infodir}/grep.info.gz /etc/info-dir
 fi
 
-%files
+%files -f grep.lang
+
 %defattr(644,root,root,755)
 %doc {NEWS,README,ChangeLog,TODO}.gz
-
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/grep.mo
-%lang(el) %{_datadir}/locale/el/LC_MESSAGES/grep.mo
-%lang(es) %{_datadir}/locale/es/LC_MESSAGES/grep.mo
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/grep.mo
-%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/grep.mo
-%lang(nl) %{_datadir}/locale/nl/LC_MESSAGES/grep.mo
-%lang(no) %{_datadir}/locale/no/LC_MESSAGES/grep.mo
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/grep.mo
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/grep.mo
-%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/grep.mo
-%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/grep.mo
 
 %attr(755,root,root) /bin/*
 %{_mandir}/man1/*
@@ -99,6 +92,10 @@ fi
 %{_infodir}/*info*
 
 %changelog
+* Fri May 21 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [2.3-4]
+- added more macros.
+
 * Wed Apr 28 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [2.3-3]
 - added el .mo file,
