@@ -20,30 +20,31 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_exec_prefix	/
 
 %description
-The GNU versions of commonly used grep utilities. Grep searches one or more
-input files for lines which contain a match to a specified pattern and then
-prints the matching lines. GNU's grep utilities include grep, egrep and
-fgrep.
+The GNU versions of commonly used grep utilities. Grep searches one or
+more input files for lines which contain a match to a specified
+pattern and then prints the matching lines. GNU's grep utilities
+include grep, egrep and fgrep.
 
 %description -l de
-Die GNU-Versionen der häufig benutzten grep-Utilities. Grep durchsucht eine
-oder mehrere Eingabedateien nach Zeilen, die auf ein angegebenes Muster
-passen, und zeigt dann die entsprechenden Zeilen an. GNUs grep enthält
-grep, egrep und fgrep.
+Die GNU-Versionen der häufig benutzten grep-Utilities. Grep durchsucht
+eine oder mehrere Eingabedateien nach Zeilen, die auf ein angegebenes
+Muster passen, und zeigt dann die entsprechenden Zeilen an. GNUs grep
+enthält grep, egrep und fgrep.
 
 %description -l fr
-Ceci est l'implémentation par GNU du populaire l'utilitaire grep su *nix.
-Il permet de localiser rapidement des chaînes de caractéres dans les
-fichiers.
+Ceci est l'implémentation par GNU du populaire l'utilitaire grep su
+*nix. Il permet de localiser rapidement des chaînes de caractéres dans
+les fichiers.
 
 %description -l pl 
-GNU grep jest implementacj± popularnego programu unixowego `grep'. Grep
-jest jednym z podstawowych narzêdzi, korzysta z niego prawie ka¿dy skrypt
-shella.
+GNU grep jest implementacj± popularnego programu unixowego `grep'.
+Grep jest jednym z podstawowych narzêdzi, korzysta z niego prawie
+ka¿dy skrypt shella.
 
 %description -l tr
-Bu, bütün Unix'lerde bulunan ve yaygýn olarak kullanýlan grep aracýnýn GNU
-sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada kullanýlýr.
+Bu, bütün Unix'lerde bulunan ve yaygýn olarak kullanýlan grep aracýnýn
+GNU sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada
+kullanýlýr.
 
 %prep
 %setup  -q
