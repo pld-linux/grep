@@ -6,7 +6,7 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5e
-Release:	4
+Release:	5
 Epoch:		1
 License:	GPL
 Group:		Applications/Text
@@ -14,7 +14,7 @@ Group(de):	Applikationen/Text
 Group(fr):	Utilitaires/Texte
 Group(pl):	Aplikacje/Tekst
 Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
-Source1:	%{name}.1.pl
+Source1:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-m4.patch
 Patch2:		%{name}-ac25x.patch
@@ -80,17 +80,13 @@ export CPPFLAGS
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_mandir}/pl/man1
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
-
-install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/pl/man1/grep.1
 
 echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/egrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/fgrep.1
 
-echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/pl/man1/egrep.1
-echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/pl/man1/fgrep.1
+bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
 gzip -9nf NEWS README ChangeLog TODO
 
@@ -110,5 +106,13 @@ rm -rf $RPM_BUILD_ROOT
 %doc *.gz
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
+%lang(da) %{_mandir}/da/man1/*
+%lang(de) %{_mandir}/de/man1/*
+%lang(es) %{_mandir}/es/man1/*
+%lang(fi) %{_mandir}/fi/man1/*
+%lang(fr) %{_mandir}/fr/man1/*
+%lang(hu) %{_mandir}/hu/man1/*
+%lang(it) %{_mandir}/it/man1/*
+%lang(nl) %{_mandir}/nl/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 %{_infodir}/*info*
