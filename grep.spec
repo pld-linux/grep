@@ -44,9 +44,9 @@ sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada kullanýlýr.
 autoconf
 gettextize --copy --force
 %configure \
-	--prefix=/usr \
+	--prefix=%{_prefix} \
 	--exec-prefix=/
-make 
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
