@@ -24,6 +24,8 @@ Patch1:		%{name}-e%{name}.patch
 %{?_with_pcre:BuildRequires:	pcre-devel}
 %{?_with_pcre:Requires:	pcre}
 BuildRequires:	gettext-devel
+BuildRequires:	gettext-devel
+BuildRequires:	automake >= 1.7.9-2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
@@ -82,6 +84,7 @@ kullanýlýr.
 %patch1 -p1
 
 %build
+cp /usr/share/automake/config.sub .
 %ifarch sparc sparc64
 CPPFLAGS=""
 export CPPFLAGS
