@@ -14,7 +14,7 @@ Summary(tr):	Dosyalarda katar arama aracЩ
 Summary(uk):	Утил╕ти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.1
-Release:	12
+Release:	13
 Epoch:		2
 License:	GPL
 Group:		Applications/Text
