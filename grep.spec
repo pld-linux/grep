@@ -22,6 +22,7 @@ Patch2:		%{name}-ac25x.patch
 %{?_with_pcre:Requires:	pcre}
 BuildRequires:	automake
 BuildRequires:	autoconf
+BuildRequires:	gettext-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
@@ -45,7 +46,7 @@ Unix. Il permet de localiser rapidement des chaînes de caractéres dans
 les fichiers.
 
 %description -l pl 
-GNU grep jest implementacj± popularnego programu unixowego `grep'.
+GNU grep jest implementacj± popularnego programu uniksowego `grep'.
 Grep jest jednym z podstawowych narzêdzi, korzysta z niego prawie
 ka¿dy skrypt shella.
 
