@@ -3,8 +3,8 @@ Summary(fr): Utilitaires grep de GNU
 Summary(pl): GNU grep 
 Summary(tr): Dosyalarda katar arama aracý
 Name:        grep
-Version:     2.2
-Release:     3
+Version:     2.2c
+Release:     2
 Copyright:   GPL
 Group:       Utilities/Text
 Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
@@ -58,6 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644, root,  man) /usr/man/man1/*
 
 %lang(de) /usr/share/locale/de/LC_MESSAGES/grep.mo
+%lang(el) /usr/share/locale/el/LC_MESSAGES/grep.mo
 %lang(es) /usr/share/locale/es/LC_MESSAGES/grep.mo
 %lang(fr) /usr/share/locale/fr/LC_MESSAGES/grep.mo
 %lang(ko) /usr/share/locale/ko/LC_MESSAGES/grep.mo
