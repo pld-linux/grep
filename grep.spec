@@ -1,15 +1,15 @@
-Summary:     GNU grep Utilities
-Name:        grep
-Version:     2.2
-Release:     4
-Copyright:   GPL
-Group:       Utilities/Text
-Group(pl):   Narzêdzia/Tekst
-Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
-Buildroot:   /tmp/buildroot-%{name}-%{version}
-Summary(fr): Utilitaires grep de GNU
-Summary(pl): GNU grep 
-Summary(tr): Dosyalarda katar arama aracý
+Summary:	GNU grep Utilities
+Summary(fr):	Utilitaires grep de GNU
+Summary(pl):	GNU grep 
+Summary(tr):	Dosyalarda katar arama aracý
+Name:		grep
+Version:	2.2
+Release:	5
+Copyright:	GPL
+Group:		Utilities/Text
+Group(pl):	Narzêdzia/Tekst
+Source:		ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
+Buildroot:	/tmp/buildroot-%{name}-%{version}-root
 
 %description
 This is the GNU implementation of the popular `grep' *nix
@@ -45,22 +45,30 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make prefix=$RPM_BUILD_ROOT/usr exec_prefix=$RPM_BUILD_ROOT install
+
+make \
+    prefix=$RPM_BUILD_ROOT/usr \
+    exec_prefix=$RPM_BUILD_ROOT \
+    install
+
 ln -sf /bin/grep $RPM_BUILD_ROOT/bin/fgrep
 ln -sf /bin/grep $RPM_BUILD_ROOT/bin/egrep
+
 echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/man1/egrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/man1/fgrep.1
 
 gzip -9nf $RPM_BUILD_ROOT/usr/man/man1/*
+bzip2 -9 NEWS README ChangeLog
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(644, root, root, 755)
-%doc NEWS README ChangeLog
-%attr(755, root, root) /bin/*
-%attr(644, root,  man) /usr/man/man1/*
+%defattr(644,root,root,755)
+%doc {NEWS,README,ChangeLog}.bz2
+
+%attr(755,root,root) /bin/*
+%attr(644,root, man) /usr/man/man1/*
 
 %lang(de) /usr/share/locale/de/LC_MESSAGES/grep.mo
 %lang(es) /usr/share/locale/es/LC_MESSAGES/grep.mo
@@ -83,17 +91,5 @@ rm -rf $RPM_BUILD_ROOT
   [2.2-3]
 - added pl translation,
 - minor modification of the spec file.
-
-* Sat May 09 1998 Prospector System <bugs@redhat.com>
-- translations modified for de, fr, tr
-
-* Fri May 01 1998 Cristian Gafton <gafton@redhat.com>
-- updated to 2.2
-
-* Thu Oct 16 1997 Donnie Barnes <djb@redhat.com>
-- updated from 2.0 to 2.1
-- spec file cleanups
-- added BuildRoot
-
-* Mon Jun 02 1997 Erik Troan <ewt@redhat.com>
-- built against glibc
+- build against GNU libc-2.1,
+- start at invalid RH spec file.
