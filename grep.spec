@@ -5,7 +5,7 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5a
-Release:	1
+Release:	2
 License:	GPL
 Group:		Utilities/Text
 Group(fr):	Utilitaires/Texte
@@ -14,7 +14,7 @@ Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	grep.1.pl
 Patch0:		grep-info.patch
 Prereq:		/usr/sbin/fix-info-dir
-Prereq:		pcre-devel
+BuildRequires:	pcre-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
