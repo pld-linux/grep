@@ -5,14 +5,16 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5a
-Release:	5
+Release:	6
 License:	GPL
-Group:		Utilities/Text
+Group:		Applications/Text
+Group(de):	Applikationen/Text
 Group(fr):	Utilitaires/Texte
-Group(pl):	Narzêdzia/Tekst
+Group(pl):	Aplikacje/Tekst
 Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
-Source1:	grep.1.pl
-Patch0:		grep-info.patch
+Source1:	%{name}.1.pl
+Patch0:		%{name}-info.patch
+Patch1:		%{name}-i18n.patch
 BuildRequires:	pcre-devel
 Requires:	pcre
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -34,8 +36,8 @@ enthält grep, egrep und fgrep.
 
 %description -l fr
 Ceci est l'implémentation par GNU du populaire l'utilitaire grep su
-*nix. Il permet de localiser rapidement des chaînes de caractéres dans
-les fichiers.
+- *nix. Il permet de localiser rapidement des chaînes de caractéres
+  dans les fichiers.
 
 %description -l pl 
 GNU grep jest implementacj± popularnego programu unixowego `grep'.
@@ -50,6 +52,7 @@ kullanýlýr.
 %prep
 %setup  -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 gettextize --force --copy
@@ -59,9 +62,7 @@ autoconf
 CPPFLAGS=""
 export CPPFLAGS
 %endif
-LDFLAGS="-s"; export LDFLAGS
 %configure
-
 %{__make}
 
 %install
@@ -78,8 +79,7 @@ echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/fgrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/pl/man1/egrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/pl/man1/fgrep.1
 
-gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/*info*,%{_mandir}/{man1/*,pl/man1/*}} \
-	NEWS README ChangeLog TODO
+gzip -9nf NEWS README ChangeLog TODO
 
 %find_lang %{name}
 
@@ -94,8 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc {NEWS,README,ChangeLog,TODO}.gz
-
+%doc *.gz
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
