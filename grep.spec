@@ -4,7 +4,7 @@ Summary(fr):	Utilitaires grep de GNU
 Summary(pl):	GNU grep 
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
-Version:	2.4.1
+Version:	2.4.2
 Release:	1
 License:	GPL
 Group:		Utilities/Text
