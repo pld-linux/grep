@@ -25,7 +25,7 @@ Patch1:		%{name}-e%{name}.patch
 %{?_with_pcre:Requires:	pcre}
 BuildRequires:	gettext-devel
 BuildRequires:	gettext-devel
-BuildRequires:	automake >= 1.7.9-2
+BuildRequires:	automake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
