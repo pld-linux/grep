@@ -13,7 +13,7 @@ Group:		Applications/Text
 Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-egrep.pach
+Patch1:		%{name}-egrep.patch
 %{?_with_pcre:BuildRequires:	pcre-devel}
 %{?_with_pcre:Requires:	pcre}
 BuildRequires:	gettext-devel
