@@ -49,19 +49,19 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/usr/man/pl/man1
+install -d $RPM_BUILD_ROOT%{_mandir}/pl/man1
 
 make install \
     prefix=$RPM_BUILD_ROOT/usr \
     exec_prefix=$RPM_BUILD_ROOT
 
-install %{SOURCE1} $RPM_BUILD_ROOT/usr/man/pl/man1/grep.1
+install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/pl/man1/grep.1
 
-echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/man1/egrep.1
-echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/man1/fgrep.1
+echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/egrep.1
+echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/fgrep.1
 
-echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/pl/man1/egrep.1
-echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/pl/man1/fgrep.1
+echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/pl/man1/egrep.1
+echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/pl/man1/fgrep.1
 
 gzip -9nf $RPM_BUILD_ROOT/usr/{info/*info*,man/{man1/*,pl/man1/*}} \
 	NEWS README ChangeLog TODO
@@ -70,11 +70,11 @@ gzip -9nf $RPM_BUILD_ROOT/usr/{info/*info*,man/{man1/*,pl/man1/*}} \
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/install-info /usr/info/grep.info.gz /etc/info-dir
+/sbin/install-info %{_infodir}/grep.info.gz /etc/info-dir
 
 %preun
 if [ "$1" = "0" ]; then
-	/sbin/install-info --delete /usr/info/grep.info.gz /etc/info-dir
+	/sbin/install-info --delete %{_infodir}/grep.info.gz /etc/info-dir
 fi
 
 %files
@@ -94,9 +94,9 @@ fi
 %lang(sv) /usr/share/locale/sv/LC_MESSAGES/grep.mo
 
 %attr(755,root,root) /bin/*
-/usr/man/man1/*
-%lang(pl) /usr/man/pl/man1/*
-/usr/info/*info*
+%{_mandir}/man1/*
+%lang(pl) %{_mandir}/pl/man1/*
+%{_infodir}/*info*
 
 %changelog
 * Wed Apr 28 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
