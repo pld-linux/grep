@@ -81,17 +81,17 @@ fi
 %defattr(644,root,root,755)
 %doc {NEWS,README,ChangeLog,TODO}.gz
 
-%lang(de) /usr/share/locale/de/LC_MESSAGES/grep.mo
-%lang(el) /usr/share/locale/el/LC_MESSAGES/grep.mo
-%lang(es) /usr/share/locale/es/LC_MESSAGES/grep.mo
-%lang(fr) /usr/share/locale/fr/LC_MESSAGES/grep.mo
-%lang(ko) /usr/share/locale/ko/LC_MESSAGES/grep.mo
-%lang(nl) /usr/share/locale/nl/LC_MESSAGES/grep.mo
-%lang(no) /usr/share/locale/no/LC_MESSAGES/grep.mo
-%lang(pl) /usr/share/locale/pl/LC_MESSAGES/grep.mo
-%lang(ru) /usr/share/locale/ru/LC_MESSAGES/grep.mo
-%lang(sl) /usr/share/locale/sl/LC_MESSAGES/grep.mo
-%lang(sv) /usr/share/locale/sv/LC_MESSAGES/grep.mo
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/grep.mo
+%lang(el) %{_datadir}/locale/el/LC_MESSAGES/grep.mo
+%lang(es) %{_datadir}/locale/es/LC_MESSAGES/grep.mo
+%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/grep.mo
+%lang(ko) %{_datadir}/locale/ko/LC_MESSAGES/grep.mo
+%lang(nl) %{_datadir}/locale/nl/LC_MESSAGES/grep.mo
+%lang(no) %{_datadir}/locale/no/LC_MESSAGES/grep.mo
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/grep.mo
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/grep.mo
+%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/grep.mo
+%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/grep.mo
 
 %attr(755,root,root) /bin/*
 %{_mandir}/man1/*
