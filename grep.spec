@@ -87,35 +87,3 @@ fi
 %{_mandir}/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 %{_infodir}/*info*
-
-%changelog
-* Fri May 21 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [2.3-4]
-- added more macros.
-
-* Wed Apr 28 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [2.3-3]
-- added el .mo file,
-- added pl man page for grep,
-- added info pages for grep.
-
-* Tue Apr 27 1999 Piotr Czerwiñski <pius@pld.org.pl>
-  [2.2-6]
-- changed Buildroot to /tmp/%%{name}-%%{version}-root,
-- gzipping documentation,
-- removed man group from man pages,
-- replacements in %files,
-- minor changes,
-- recompiled on rpm 3.
-
-* Fri Dec 11 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
-  [2.2-4]
-- added gzipping man pages,
-- added using LDFLAGS="-s" to ./configure enviroment.
-
-* Tue Oct 06 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
-  [2.2-3]
-- added pl translation,
-- minor modification of the spec file.
-- build against GNU libc-2.1,
-- start at RH spec file.
