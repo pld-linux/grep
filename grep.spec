@@ -17,7 +17,7 @@ License:	GPL
 Group:		Applications/Text
 Source0:	ftp://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 # Source0-md5: ae69f8112cdc63615cefe944f38bbee7
-Source1:	%{name}-non-english-man-pages.tar.bz2
+Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5: 21c03a584dcb47224f9f1a7e4e049b89
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-e%{name}.patch
