@@ -1,4 +1,4 @@
-# bcond_on_pcre - PCRE support
+# _with_pcre - PCRE support
 Summary:	GNU grep Utilities
 Summary(de):	GNU-Version der Pattern-Matching-Utilities
 Summary(fr):	Utilitaires grep de GNU
@@ -18,8 +18,8 @@ Source1:	%{name}.1.pl
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-m4.patch
 Patch2:		%{name}-ac25x.patch
-%{?bcond_on_pcre:BuildRequires:	pcre-devel}
-%{?bcond_on_pcre:Requires:	pcre}
+%{?_with_pcre:BuildRequires:	pcre-devel}
+%{?_with_pcre:Requires:	pcre}
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -72,7 +72,7 @@ CPPFLAGS=""
 export CPPFLAGS
 %endif
 %configure \
-	%{?!bcond_on_pcre:--disable-perl-regexp} \
+	%{?!_with_pcre:--disable-perl-regexp} \
 	--enable-nls
 %{__make}
 
