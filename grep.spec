@@ -1,28 +1,40 @@
 Summary:	GNU grep Utilities
+Summary(de):	GNU-Version der Pattern-Matching-Utilities
 Summary(fr):	Utilitaires grep de GNU
 Summary(pl):	GNU grep 
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.3
-Release:	5
+Release:	6
 Copyright:	GPL
 Group:		Utilities/Text
 Group(pl):	Narzêdzia/Tekst
 Source0:	ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
 Source1:	grep.1.pl
 Patch0:		grep-info.patch
-Prereq:		/sbin/install-info
+Prereq:		/usr/sbin/fix-info-dir
 Buildroot:	/tmp/%{name}-%{version}-root
 
-%define _bindir /bin
+%define		_bindir		/bin
+%define		_exec_prefix	/
 
 %description
-This is the GNU implementation of the popular `grep' *nix utility. It
-allows for the fast locating of strings in text files.
+The GNU versions of commonly used grep utilities.  Grep searches one or more
+input files for lines which contain a match to a specified pattern and then
+prints the matching lines.  GNU's grep utilities include grep, egrep and
+fgrep.
+
+You should install grep on your system, because it is a very useful utility
+for searching through text files, for system administration tasks, etc.
 
 %description -l de
-Dies ist die GNU-Implementierung des beliebten *nix-Dienstprogramms 'grep'.
-Damit können schnell Zeichenketten in Textdateien finden.
+Die GNU-Versionen der häufig benutzten grep-Utilities. Grep durchsucht eine
+oder mehrere Eingabedateien nach Zeilen, die auf ein angegebenes Muster
+passen, und zeigt dann die entsprechenden Zeilen an. GNUs grep enthält grep,
+egrep und fgrep.
+
+Sie sollten grep auf Ihren System installieren, weil es ein sehr nützliches
+Utility für Durchsuchen von Textdateien und Systemadministration ist.
 
 %description -l fr
 Ceci est l'implémentation par GNU du  populaire l'utilitaire grep su *nix.
@@ -44,16 +56,21 @@ sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada kullanýlýr.
 %build
 gettextize --force --copy
 autoconf
-%configure \
-	--prefix=%{_prefix} \
-	--exec-prefix=/
+
+%ifarch sparc sparc64
+CPPFLAGS=""
+export CPPFLAGS
+%endif
+LDFLAGS="-s"; export LDFLAGS
+%configure
+
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_mandir}/pl/man1
 
-make install-strip DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/pl/man1/grep.1
 
@@ -72,12 +89,10 @@ gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/*info*,%{_mandir}/{man1/*,pl/man1/*}} \
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/sbin/install-info %{_infodir}/grep.info.gz /etc/info-dir
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%preun
-if [ "$1" = "0" ]; then
-	/sbin/install-info --delete %{_infodir}/grep.info.gz /etc/info-dir
-fi
+%postun
+/usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
