@@ -41,7 +41,7 @@ sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada kullanýlýr.
 %patch0 -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE" LDFLAGS="-s" \
+CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
 ./configure %{_target} \
 	--prefix=/usr \
 	--exec-prefix=/
@@ -54,9 +54,6 @@ install -d $RPM_BUILD_ROOT/usr/man/pl/man1
 make install \
     prefix=$RPM_BUILD_ROOT/usr \
     exec_prefix=$RPM_BUILD_ROOT
-
-ln -sf /bin/grep $RPM_BUILD_ROOT/bin/fgrep
-ln -sf /bin/grep $RPM_BUILD_ROOT/bin/egrep
 
 install %{SOURCE1} $RPM_BUILD_ROOT/usr/man/pl/man1/grep.1
 
