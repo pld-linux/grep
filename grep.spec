@@ -3,6 +3,7 @@ Summary:	GNU grep Utilities
 Summary(de):	GNU-Version der Pattern-Matching-Utilities
 Summary(es):	Utilitarios grep GNU
 Summary(fr):	Utilitaires grep de GNU
+Summary(ja):	GNU grep ¤ÎÆüËÜ¸ìÂĞ±şÈÇ¤Ç¤¹. 
 Summary(pl):	GNU grep
 Summary(pt_BR):	Utilitários grep GNU
 Summary(ru):	õÔÉÌÉÔÙ ĞÏÉÓËÁ ĞÏ ÛÁÂÌÏÎÁÍ GNU grep
@@ -48,6 +49,10 @@ localización rápida de strings en archivos texto.
 Ceci est l'implémentation par GNU du populaire l'utilitaire grep su
 Unix. Il permet de localiser rapidement des chaînes de caractéres dans
 les fichiers.
+
+%description -l ja
+GNU ¥×¥í¥¸¥§¥¯¥È¤Ë¤è¤ë grep, egrep, fgrep (°Ê²¼Ã±¤Ë grep) ¤ò¥Ş¥ë¥Á¥Ğ
+¥¤¥È¥Ñ¥Ã¥Á(mb1.04)¤Ë¤è¤Ã¤ÆÆüËÜ¸ìÂĞ±ş¤Ë¤·¤¿¤â¤Î¤Ç¤¹. 
 
 %description -l pl
 GNU grep jest implementacj± popularnego programu uniksowego `grep'.
@@ -119,6 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(hu) %{_mandir}/hu/man1/*
 %lang(it) %{_mandir}/it/man1/*
+%lang(ja) %{_mandir}/ja/man1/*
 %lang(nl) %{_mandir}/nl/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
 %{_infodir}/*info*
