@@ -13,13 +13,13 @@ Summary(ru):	Утилиты поиска по шаблонам GNU grep
 Summary(tr):	Dosyalarda katar arama aracЩ
 Summary(uk):	Утил╕ти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	2.5.1
-Release:	13
+Version:	2.5.1a
+Release:	1
 Epoch:		2
 License:	GPL
 Group:		Applications/Text
 Source0:	ftp://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.gz
-# Source0-md5:	ae69f8112cdc63615cefe944f38bbee7
+# Source0-md5:	71db1cb262c27f02461c4bca514591ce
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
