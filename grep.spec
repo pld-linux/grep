@@ -4,7 +4,7 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.3
-Release:	3
+Release:	4
 Copyright:	GPL
 Group:		Utilities/Text
 Group(pl):	Narzêdzia/Tekst
@@ -41,8 +41,8 @@ sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada kullanýlýr.
 %patch0 -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
-./configure \
+CFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE" LDFLAGS="-s" \
+./configure %{_target} \
 	--prefix=/usr \
 	--exec-prefix=/
 make 
