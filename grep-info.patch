@@ -8,7 +8,7 @@ diff -Nru grep-2.3/doc/grep.texi grep-2.3.new/doc/grep.texi
 +@dircategory File utilities:
  @direntry
 -* grep: (grep).                   print lines matching a pattern.
-+* grep: (grep)				Print lines matching a pattern
++* grep: (grep).				Print lines matching a pattern
  @end direntry
  This file documents @sc{grep}, a pattern matching engine.
  
