@@ -6,7 +6,7 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5e
-Release:	3
+Release:	4
 Epoch:		1
 License:	GPL
 Group:		Applications/Text
@@ -74,6 +74,7 @@ export CPPFLAGS
 %endif
 %configure \
 	%{?!_with_pcre:--disable-perl-regexp} \
+	--without-included-regex \
 	--enable-nls
 %{__make}
 
