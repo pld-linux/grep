@@ -1,0 +1,11 @@
+--- grep-2.5.1/configure.in.orig	Tue Mar 26 16:48:16 2002
++++ grep-2.5.1/configure.in	Thu Jul 22 10:41:32 2004
+@@ -70,7 +70,7 @@
+ esac
+ 
+ dnl I18N feature
+-ALL_LINGUAS="cs de el eo es et fr gl hr id it ja ko nl no pl pt_BR ru sl sv"
++ALL_LINGUAS="cs de el eo es et fr gl hr id it ja ko nl nb pl pt_BR ru sl sv"
+ AM_GNU_GETTEXT
+ 
+ dnl DOS file name convention
