@@ -62,7 +62,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644, root,  man) /usr/man/man1/*
 
 %lang(de) /usr/share/locale/de/LC_MESSAGES/grep.mo
-%lang(el) /usr/share/locale/el/LC_MESSAGES/grep.mo
 %lang(es) /usr/share/locale/es/LC_MESSAGES/grep.mo
 %lang(fr) /usr/share/locale/fr/LC_MESSAGES/grep.mo
 %lang(ko) /usr/share/locale/ko/LC_MESSAGES/grep.mo
