@@ -1,4 +1,7 @@
-# _with_pcre - PCRE support
+#
+# Conditional build:
+%bcond_with	pcre	# PCRE support
+#
 Summary:	GNU grep Utilities
 Summary(de):	GNU-Version der Pattern-Matching-Utilities
 Summary(es):	Utilitarios grep GNU
@@ -11,7 +14,7 @@ Summary(tr):	Dosyalarda katar arama aracý
 Summary(uk):	õÔÉÌ¦ÔÉ ÐÏÛÕËÕ ÐÏ ÛÁÂÌÏÎÁÍ GNU grep
 Name:		grep
 Version:	2.5.1
-Release:	8
+Release:	9
 Epoch:		2
 License:	GPL
 Group:		Applications/Text
@@ -20,9 +23,9 @@ Source0:	ftp://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-e%{name}.patch
-%{?_with_pcre:BuildRequires:	pcre-devel}
-%{?_with_pcre:Requires:	pcre}
+Patch1:		%{name}-egrep.patch
+%{?with_pcre:BuildRequires:	pcre-devel}
+%{?with_pcre:Requires:	pcre}
 BuildRequires:	gettext-devel
 BuildRequires:	gettext-devel
 BuildRequires:	automake
@@ -84,8 +87,16 @@ kullanýlýr.
 %patch0 -p1
 %patch1 -p1
 
+rm -f m4/{header,init}.m4
+
+# hack: AC_FUNC_STRERROR_R from strerror_r.m4 must override autoconf's version
+# (it contains HAVE_WORKING_STRERROR_R define, needed with glibc 2.x, as
+#  glibc version returns pointer to string and doesn't seem to store string in
+#  supplied buffer(???))
+cat m4/strerror_r.m4 >> acinclude.m4
+touch m4/{header,init}.m4
+
 %build
-rm m4/{header,init}.m4
 %{__libtoolize}
 %{__aclocal} -I m4
 %{__automake}
@@ -95,7 +106,7 @@ CPPFLAGS=""
 export CPPFLAGS
 %endif
 %configure \
-	%{?!_with_pcre:--disable-perl-regexp} \
+	%{!?with_pcre:--disable-perl-regexp} \
 	--without-included-regex \
 	--enable-nls
 %{__make}
@@ -103,7 +114,8 @@ export CPPFLAGS
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/egrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/fgrep.1
