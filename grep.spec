@@ -14,7 +14,7 @@ Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	grep.1.pl
 Patch0:		grep-info.patch
 Prereq:		/usr/sbin/fix-info-dir
-Buildroot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
 %define		_exec_prefix	/
