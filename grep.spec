@@ -3,7 +3,7 @@ Summary:	GNU grep Utilities
 Summary(de):	GNU-Version der Pattern-Matching-Utilities
 Summary(es):	Utilitarios grep GNU
 Summary(fr):	Utilitaires grep de GNU
-Summary(ja):	GNU grep ¤ÎÆüËÜ¸ìÂĞ±şÈÇ¤Ç¤¹. 
+Summary(ja):	GNU grep ¤ÎÆüËÜ¸ìÂĞ±şÈÇ¤Ç¤¹.
 Summary(pl):	GNU grep
 Summary(pt_BR):	Utilitários grep GNU
 Summary(ru):	õÔÉÌÉÔÙ ĞÏÉÓËÁ ĞÏ ÛÁÂÌÏÎÁÍ GNU grep
@@ -52,7 +52,7 @@ les fichiers.
 
 %description -l ja
 GNU ¥×¥í¥¸¥§¥¯¥È¤Ë¤è¤ë grep, egrep, fgrep (°Ê²¼Ã±¤Ë grep) ¤ò¥Ş¥ë¥Á¥Ğ
-¥¤¥È¥Ñ¥Ã¥Á(mb1.04)¤Ë¤è¤Ã¤ÆÆüËÜ¸ìÂĞ±ş¤Ë¤·¤¿¤â¤Î¤Ç¤¹. 
+¥¤¥È¥Ñ¥Ã¥Á(mb1.04)¤Ë¤è¤Ã¤ÆÆüËÜ¸ìÂĞ±ş¤Ë¤·¤¿¤â¤Î¤Ç¤¹.
 
 %description -l pl
 GNU grep jest implementacj± popularnego programu uniksowego `grep'.
