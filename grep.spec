@@ -27,7 +27,6 @@ Patch1:		%{name}-egrep.patch
 %{?with_pcre:BuildRequires:	pcre-devel}
 %{?with_pcre:Requires:	pcre}
 BuildRequires:	gettext-devel
-BuildRequires:	gettext-devel
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
