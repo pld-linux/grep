@@ -63,7 +63,7 @@ rm -f missing m4/{largefile,error,gettext,lcmessage,progtest}.m4
 gettextize --force --copy
 aclocal
 autoconf
-automake -a -c
+automake -a -c -f
 
 %ifarch sparc sparc64
 CPPFLAGS=""
