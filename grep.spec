@@ -4,12 +4,12 @@ Summary(fr):	Utilitaires grep de GNU
 Summary(pl):	GNU grep 
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
-Version:	2.3
-Release:	6
+Version:	2.4
+Release:	1
 Copyright:	GPL
 Group:		Utilities/Text
 Group(pl):	Narzêdzia/Tekst
-Source0:	ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
+Source0:	ftp://prep.ai.mit.edu/pub/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	grep.1.pl
 Patch0:		grep-info.patch
 Prereq:		/usr/sbin/fix-info-dir
