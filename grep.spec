@@ -1,3 +1,4 @@
+# bcond_on_pcre - PCRE support
 Summary:	GNU grep Utilities
 Summary(de):	GNU-Version der Pattern-Matching-Utilities
 Summary(fr):	Utilitaires grep de GNU
@@ -5,7 +6,7 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5e
-Release:	1
+Release:	2
 Epoch:		1
 License:	GPL
 Group:		Applications/Text
@@ -15,8 +16,11 @@ Group(pl):	Aplikacje/Tekst
 Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	%{name}.1.pl
 Patch0:		%{name}-info.patch
-BuildRequires:	pcre-devel
-Requires:	pcre
+Patch1:		%{name}-m4.patch
+%{?bcond_on_pcre:BuildRequires:	pcre-devel}
+%{?bcond_on_pcre:Requires:	pcre}
+BuildRequires:	automake
+BuildRequires:	autoconf
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
@@ -52,16 +56,22 @@ kullanýlýr.
 %prep
 %setup  -q
 %patch0 -p1
+%patch1 -p1
 
 %build
+rm missing
 gettextize --force --copy
+aclocal
 autoconf
+automake -a -c
 
 %ifarch sparc sparc64
 CPPFLAGS=""
 export CPPFLAGS
 %endif
-%configure
+%configure \
+	%{?!bcond_on_pcre:--disable-perl-regexp} \
+	--enable-nls
 %{__make}
 
 %install
