@@ -14,7 +14,7 @@ Summary(tr):	Dosyalarda katar arama aracЩ
 Summary(uk):	Утил╕ти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.1
-Release:	9
+Release:	10
 Epoch:		2
 License:	GPL
 Group:		Applications/Text
@@ -113,6 +113,7 @@ export CPPFLAGS
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/env.d
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -121,6 +122,10 @@ echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/egrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/fgrep.1
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+
+cat << EOF >$RPM_BUILD_ROOT/etc/env.d/GREP_OPTIONS
+#GREP_OPTIONS="--binary-files=without-match --directories=skip --color=auto"
+EOF
 
 %find_lang %{name}
 
@@ -136,6 +141,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc NEWS README ChangeLog TODO
+%attr(644,root,root) %config(noreplace,missingok) %verify(not md5 size mtime) /etc/env.d/*
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 %lang(cs) %{_mandir}/cs/man1/*
