@@ -5,8 +5,8 @@ Summary(fr):	Utilitaires grep de GNU
 Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
-Version:	2.5e
-Release:	6
+Version:	2.5.1
+Release:	0.1
 Epoch:		1
 License:	GPL
 Group:		Applications/Text
@@ -55,15 +55,15 @@ kullanýlýr.
 %prep
 %setup  -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
+#%patch1 -p1
+#%patch2 -p1
 
 %build
 rm -f missing m4/{largefile,error,gettext,lcmessage,progtest}.m4
-gettextize --force --copy
-aclocal
-autoconf
-automake -a -c -f
+#gettextize --force --copy
+#aclocal
+#autoconf
+#automake -a -c -f
 
 %ifarch sparc sparc64
 CPPFLAGS=""
