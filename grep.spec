@@ -6,15 +6,13 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5.1
-Release:	0.1
+Release:	1
 Epoch:		1
 License:	GPL
 Group:		Applications/Text
 Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-m4.patch
-Patch2:		%{name}-ac25x.patch
 %{?_with_pcre:BuildRequires:	pcre-devel}
 %{?_with_pcre:Requires:	pcre}
 BuildRequires:	automake
@@ -60,10 +58,6 @@ kullanýlýr.
 
 %build
 rm -f missing m4/{largefile,error,gettext,lcmessage,progtest}.m4
-#gettextize --force --copy
-#aclocal
-#autoconf
-#automake -a -c -f
 
 %ifarch sparc sparc64
 CPPFLAGS=""
