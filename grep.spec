@@ -4,12 +4,12 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.2
-Release:	5
+Release:	6
 Copyright:	GPL
 Group:		Utilities/Text
 Group(pl):	Narzêdzia/Tekst
 Source:		ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
-Buildroot:	/tmp/buildroot-%{name}-%{version}-root
+Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
 This is the GNU implementation of the popular `grep' *nix
@@ -27,7 +27,7 @@ dans les fichiers.
 %description -l pl 
 GNU grep jest implementacj± popularnego programu unixowego `grep'.
 Grep jest jednym z podstawowych narzêdzi, korzysta z niego prawie
-ka¿dym skrypt shella. 
+ka¿dy skrypt shella. 
 
 %description -l tr
 Bu, bütün Unix'lerde bulunan ve yaygýn olarak kullanýlan grep aracýnýn GNU
@@ -57,18 +57,15 @@ ln -sf /bin/grep $RPM_BUILD_ROOT/bin/egrep
 echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/man1/egrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/man1/fgrep.1
 
-gzip -9nf $RPM_BUILD_ROOT/usr/man/man1/*
-bzip2 -9 NEWS README ChangeLog
+gzip -9nf $RPM_BUILD_ROOT/usr/man/man1/* \
+	NEWS README ChangeLog TODO
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {NEWS,README,ChangeLog}.bz2
-
-%attr(755,root,root) /bin/*
-%attr(644,root, man) /usr/man/man1/*
+%doc {NEWS,README,ChangeLog,TODO}.gz
 
 %lang(de) /usr/share/locale/de/LC_MESSAGES/grep.mo
 %lang(es) /usr/share/locale/es/LC_MESSAGES/grep.mo
@@ -81,7 +78,19 @@ rm -rf $RPM_BUILD_ROOT
 %lang(sl) /usr/share/locale/sl/LC_MESSAGES/grep.mo
 %lang(sv) /usr/share/locale/sv/LC_MESSAGES/grep.mo
 
+%attr(755,root,root) /bin/*
+/usr/man/man1/*
+
 %changelog
+* Tue Apr 27 1999 Piotr Czerwiñski <pius@pld.org.pl>
+  [2.2-6]
+- changed Buildroot to /tmp/%%{name}-%%{version}-root,
+- gzipping documentation,
+- removed man group from man pages,
+- replacements in %files,
+- minor changes,
+- recompiled on rpm 3.
+
 * Fri Dec 11 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [2.2-4]
 - added gzipping man pages,
