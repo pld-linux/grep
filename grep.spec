@@ -66,7 +66,7 @@ echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/pl/man1/fgrep.1
 gzip -9nf $RPM_BUILD_ROOT{%{_infodir}/*info*,%{_mandir}/{man1/*,pl/man1/*}} \
 	NEWS README ChangeLog TODO
 
-%find_lang grep
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,7 +79,7 @@ if [ "$1" = "0" ]; then
 	/sbin/install-info --delete %{_infodir}/grep.info.gz /etc/info-dir
 fi
 
-%files -f grep.lang
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc {NEWS,README,ChangeLog,TODO}.gz
 
