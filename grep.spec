@@ -4,7 +4,7 @@ Summary(pl): GNU grep
 Summary(tr): Dosyalarda katar arama aracý
 Name:        grep
 Version:     2.2
-Release:     3
+Release:     4
 Copyright:   GPL
 Group:       Utilities/Text
 Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
@@ -36,9 +36,11 @@ sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada kullanýlýr.
 %setup -q
 
 %build
-CFLAGS=$RPM_OPT_FLAGS ./configure --prefix=/usr --exec-prefix=/
+CFLAGS=$RPM_OPT_FLAGS LDFLAGS="-s" \
+./configure \
+	--prefix=/usr \
+	--exec-prefix=/
 make 
-strip src/grep
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -47,6 +49,8 @@ ln -sf /bin/grep $RPM_BUILD_ROOT/bin/fgrep
 ln -sf /bin/grep $RPM_BUILD_ROOT/bin/egrep
 echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/man1/egrep.1
 echo .so grep.1 > $RPM_BUILD_ROOT/usr/man/man1/fgrep.1
+
+gzip -9nf $RPM_BUILD_ROOT/usr/man/man1/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -70,6 +74,11 @@ rm -rf $RPM_BUILD_ROOT
 %lang(sv) /usr/share/locale/sv/LC_MESSAGES/grep.mo
 
 %changelog
+* Fri Dec 11 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [2.2-4]
+- added gzipping man pages,
+- added using LDFLAGS="-s" to ./configure enviroment.
+
 * Tue Oct 06 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
   [2.2-3]
 - added pl translation,
