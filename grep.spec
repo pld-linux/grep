@@ -1,14 +1,15 @@
 Summary:     GNU grep Utilities
-Summary(fr): Utilitaires grep de GNU
-Summary(pl): GNU grep 
-Summary(tr): Dosyalarda katar arama aracý
 Name:        grep
 Version:     2.2
 Release:     4
 Copyright:   GPL
 Group:       Utilities/Text
+Group(pl):   Narzêdzia/Tekst
 Source:      ftp://prep.ai.mit.edu/pub/gnu/%{name}-%{version}.tar.gz
-Buildroot:   /tmp/%{name}-%{version}-root
+Buildroot:   /tmp/buildroot-%{name}-%{version}
+Summary(fr): Utilitaires grep de GNU
+Summary(pl): GNU grep 
+Summary(tr): Dosyalarda katar arama aracý
 
 %description
 This is the GNU implementation of the popular `grep' *nix
