@@ -4,7 +4,7 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.3
-Release:	4
+Release:	5
 Copyright:	GPL
 Group:		Utilities/Text
 Group(pl):	Narzêdzia/Tekst
@@ -41,21 +41,22 @@ sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada kullanýlýr.
 %patch0 -p1
 
 %build
-autoconf
-gettextize --copy --force
-%configure \
-	--prefix=%{_prefix} \
-	--exec-prefix=/
+autoconf && %configure
+#%configure \
+#	--prefix=%{_prefix} \
+#	--exec-prefix=/
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_mandir}/pl/man1
 
-make install \
-	bindir=$RPM_BUILD_ROOT/bin \
-	infodir=$RPM_BUILD_ROOT%{_infodir} \
-	mandir=$RPM_BUILD_ROOT%{_mandir}
+make \
+    bindir=$RPM_BUILD_ROOT/bin \
+    infodir=$RPM_BUILD_ROOT%{_infodir} \
+    mandir=$RPM_BUILD_ROOT%{_mandir} \
+    prefix=$RPM_BUILD_ROOT%{_prefix} \
+    install install-strip
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/pl/man1/grep.1
 
@@ -82,7 +83,6 @@ if [ "$1" = "0" ]; then
 fi
 
 %files -f grep.lang
-
 %defattr(644,root,root,755)
 %doc {NEWS,README,ChangeLog,TODO}.gz
 
@@ -121,4 +121,4 @@ fi
 - added pl translation,
 - minor modification of the spec file.
 - build against GNU libc-2.1,
-- start at invalid RH spec file.
+- start at RH spec file.
