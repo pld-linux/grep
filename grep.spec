@@ -6,7 +6,7 @@ Summary(pl):	GNU grep
 Summary(tr):	Dosyalarda katar arama aracý
 Name:		grep
 Version:	2.5.1
-Release:	2
+Release:	3
 Epoch:		1
 License:	GPL
 Group:		Applications/Text
