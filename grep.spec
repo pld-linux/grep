@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	pcre	# PCRE support
+%bcond_with	pcre	# with PCRE support
 #
 Summary:	GNU grep Utilities
 Summary(de):	GNU-Version der Pattern-Matching-Utilities
@@ -14,21 +14,22 @@ Summary(tr):	Dosyalarda katar arama aracЩ
 Summary(uk):	Утил╕ти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.1
-Release:	11
+Release:	12
 Epoch:		2
 License:	GPL
 Group:		Applications/Text
-Source0:	ftp://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.gz
 # Source0-md5:	ae69f8112cdc63615cefe944f38bbee7
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-egrep.patch
+Patch2:		%{name}-locale-names.patch
 %{?with_pcre:BuildRequires:	pcre-devel}
-%{?with_pcre:Requires:	pcre}
 BuildRequires:	gettext-devel
 BuildRequires:	automake
 BuildRequires:	autoconf
+%{?with_pcre:Requires:	pcre}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
@@ -82,9 +83,10 @@ kullanЩlЩr.
 пошуку по шаблону в текстових файлах.
 
 %prep
-%setup  -q
+%setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 rm -f m4/{header,init}.m4
 
@@ -94,6 +96,9 @@ rm -f m4/{header,init}.m4
 #  supplied buffer(???))
 cat m4/strerror_r.m4 >> acinclude.m4
 touch m4/{header,init}.m4
+
+# there is nb.po included, but more outdated than no.po (only no was in LINGUAS)
+mv -f po/{no,nb}.po
 
 %build
 %{__libtoolize}
