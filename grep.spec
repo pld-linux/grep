@@ -118,7 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc NEWS README ChangeLog TODO
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
-%lang(cs) %{_mandir}/de/man1/*
+%lang(cs) %{_mandir}/cs/man1/*
 %lang(de) %{_mandir}/de/man1/*
 %lang(es) %{_mandir}/es/man1/*
 %lang(fi) %{_mandir}/fi/man1/*
