@@ -11,7 +11,7 @@ Summary(tr):	Dosyalarda katar arama aracЩ
 Summary(uk):	Утил╕ти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.1
-Release:	7
+Release:	8
 Epoch:		2
 License:	GPL
 Group:		Applications/Text
@@ -26,6 +26,7 @@ Patch1:		%{name}-e%{name}.patch
 BuildRequires:	gettext-devel
 BuildRequires:	gettext-devel
 BuildRequires:	automake
+BuildRequires:	autoconf
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
@@ -84,7 +85,11 @@ kullanЩlЩr.
 %patch1 -p1
 
 %build
-cp /usr/share/automake/config.sub .
+rm m4/{header,init}.m4
+%{__libtoolize}
+%{__aclocal} -I m4
+%{__automake}
+%{__autoconf}
 %ifarch sparc sparc64
 CPPFLAGS=""
 export CPPFLAGS
