@@ -14,8 +14,9 @@ Patch0:		grep-info.patch
 Prereq:		/sbin/install-info
 Buildroot:	/tmp/%{name}-%{version}-root
 
-%description
+%define _bindir /bin
 
+%description
 This is the GNU implementation of the popular `grep' *nix utility. It
 allows for the fast locating of strings in text files.
 
@@ -41,22 +42,18 @@ sürümüdür. Metin dosyalarý içinde bulunan katarlarý aramada kullanýlýr.
 %patch0 -p1
 
 %build
-autoconf && %configure
-#%configure \
-#	--prefix=%{_prefix} \
-#	--exec-prefix=/
+gettextize --force --copy
+autoconf
+%configure \
+	--prefix=%{_prefix} \
+	--exec-prefix=/
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_mandir}/pl/man1
 
-make \
-    bindir=$RPM_BUILD_ROOT/bin \
-    infodir=$RPM_BUILD_ROOT%{_infodir} \
-    mandir=$RPM_BUILD_ROOT%{_mandir} \
-    prefix=$RPM_BUILD_ROOT%{_prefix} \
-    install install-strip
+make install-strip DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/pl/man1/grep.1
 
