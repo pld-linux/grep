@@ -27,10 +27,11 @@ Patch1:		%{name}-egrep.patch
 Patch2:		%{name}-locale-names.patch
 URL:		http://www.gnu.org/software/grep/grep.html
 %{?with_pcre:BuildRequires:	pcre-devel}
-BuildRequires:	gettext-devel
-BuildRequires:	automake
 BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	gettext-devel
 BuildRequires:	libtool
+BuildRequires:	texinfo
 %{?with_pcre:Requires:	pcre}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
