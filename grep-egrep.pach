@@ -1,0 +1,18 @@
+diff -Nur grep-2.5.1.org/src/Makefile.in grep-2.5.1/src/Makefile.in
+--- grep-2.5.1.org/src/Makefile.in	Tue Mar 26 17:11:52 2002
++++ grep-2.5.1/src/Makefile.in	Tue Apr 30 10:53:27 2002
+@@ -379,12 +379,12 @@
+ 
+ egrep:
+ 	echo '#!/bin/sh' >$@
+-	echo 'exec grep -E $${1+"$$@"}' >>$@
++	echo 'exec /bin/grep -E $${1+"$$@"}' >>$@
+ 	chmod a+x $@
+ 
+ fgrep:
+ 	echo '#!/bin/sh' >$@
+-	echo 'exec grep -F $${1+"$$@"}' >>$@
++	echo 'exec /bin/grep -F $${1+"$$@"}' >>$@
+ 	chmod a+x $@
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
