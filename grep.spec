@@ -1,9 +1,13 @@
 # _with_pcre - PCRE support
 Summary:	GNU grep Utilities
 Summary(de):	GNU-Version der Pattern-Matching-Utilities
+Summary(es):	Utilitarios grep GNU
 Summary(fr):	Utilitaires grep de GNU
 Summary(pl):	GNU grep
+Summary(pt_BR):	Utilitários grep GNU
+Summary(ru):	õÔÉÌÉÔÙ ĞÏÉÓËÁ ĞÏ ÛÁÂÌÏÎÁÍ GNU grep
 Summary(tr):	Dosyalarda katar arama aracı
+Summary(uk):	õÔÉÌ¦ÔÉ ĞÏÛÕËÕ ĞÏ ÛÁÂÌÏÎÁÍ GNU grep
 Name:		grep
 Version:	2.5.1
 Release:	3
@@ -13,7 +17,7 @@ Group:		Applications/Text
 Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-egrep.patch
+Patch1:		%{name}-e%{name}.patch
 %{?_with_pcre:BuildRequires:	pcre-devel}
 %{?_with_pcre:Requires:	pcre}
 BuildRequires:	gettext-devel
@@ -34,6 +38,10 @@ eine oder mehrere Eingabedateien nach Zeilen, die auf ein angegebenes
 Muster passen, und zeigt dann die entsprechenden Zeilen an. GNUs grep
 enthält grep, egrep und fgrep.
 
+%description -l es
+Esta es la implementación GNU del popular utilitario grep. Permite la
+localización rápida de strings en archivos texto.
+
 %description -l fr
 Ceci est l'implémentation par GNU du populaire l'utilitaire grep su
 Unix. Il permet de localiser rapidement des chaînes de caractéres dans
@@ -44,10 +52,22 @@ GNU grep jest implementacj± popularnego programu uniksowego `grep'.
 Grep jest jednym z podstawowych narzêdzi, korzysta z niego prawie
 ka¿dy skrypt shella.
 
+%description -l pt_BR
+Esta é a implementação GNU do popular utilitário grep. Permite a
+localização rápida de strings em arquivos texto.
+
+%description -l ru
+üÔÏ ÒÅÁÌÉÚÁÃÉÑ GNU ÕÔÉÌÉÔÙ grep, ĞÒÅÄÎÁÚÎÁŞÅÎÎÏÊ ÄÌÑ ÂÙÓÔÒÏÇÏ ĞÏÉÓËÁ
+ĞÏ ÏÂÒÁÚÃÕ × ÔÅËÓÔÏ×ÙÈ ÆÁÊÌÁÈ.
+
 %description -l tr
 Bu, bütün Unix'lerde bulunan ve yaygın olarak kullanılan grep aracının
 GNU sürümüdür. Metin dosyaları içinde bulunan katarları aramada
 kullanılır.
+
+%description -l uk
+ãÅ GNU ÒÅÁÌ¦ÚÁÃ¦Ñ ĞÏĞÕÌÑÒÎÏ§ ÕÔÉÌ¦ÔÉ grep, ĞÒÉÚÎÁŞÅÎÏ§ ÄÌÑ Û×ÉÄËÏÇÏ
+ĞÏÛÕËÕ ĞÏ ÛÁÂÌÏÎÕ × ÔÅËÓÔÏ×ÉÈ ÆÁÊÌÁÈ.
 
 %prep
 %setup  -q
