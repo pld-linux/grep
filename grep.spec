@@ -26,11 +26,11 @@ Patch0:		%{name}-info.patch
 Patch1:		%{name}-egrep.patch
 Patch2:		%{name}-locale-names.patch
 URL:		http://www.gnu.org/software/grep/grep.html
-%{?with_pcre:BuildRequires:	pcre-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
+%{?with_pcre:BuildRequires:	pcre-devel}
 BuildRequires:	texinfo
 %{?with_pcre:Requires:	pcre}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -148,7 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc NEWS README ChangeLog TODO
-%attr(644,root,root) %config(noreplace,missingok) %verify(not md5 size mtime) /etc/env.d/*
+%attr(644,root,root) %config(noreplace,missingok) %verify(not md5 mtime size) /etc/env.d/*
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 %lang(cs) %{_mandir}/cs/man1/*
