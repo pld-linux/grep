@@ -14,7 +14,7 @@ Summary(tr):	Dosyalarda katar arama aracЩ
 Summary(uk):	Утил╕ти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.1a
-Release:	1
+Release:	1.1
 Epoch:		2
 License:	GPL
 Group:		Applications/Text
@@ -136,14 +136,18 @@ EOF
 
 %find_lang %{name}
 
+rm -f $RPM_BUILD_ROOT%{_infodir}/dir
+rm -f $RPM_BUILD_ROOT%{_mandir}/README.grep-non-english-man-pages
+rm -f $RPM_BUILD_ROOT%{_mandir}/ja-grep-nozgrep.diff
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%post -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun
-[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%postun -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
