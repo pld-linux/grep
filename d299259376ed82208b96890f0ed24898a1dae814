@@ -1,0 +1,2 @@
+- new %doc
+- release 4, epoch 2 (no strict relation between 1:2.5e and 1:2.5.1 in rpm)
