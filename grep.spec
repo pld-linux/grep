@@ -152,7 +152,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc NEWS README ChangeLog TODO
-%attr(644,root,root) %config(noreplace,missingok) %verify(not md5 mtime size) /etc/env.d/*
+%config(noreplace,missingok) %verify(not md5 mtime size) /etc/env.d/*
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
 %lang(cs) %{_mandir}/cs/man1/*
