@@ -14,7 +14,7 @@ Summary(tr):	Dosyalarda katar arama aracЩ
 Summary(uk):	Утил╕ти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.1a
-Release:	1.1
+Release:	2
 Epoch:		2
 License:	GPL
 Group:		Applications/Text
@@ -145,9 +145,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
+-/sbin/env-update -u
 
 %postun -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
+-/sbin/env-update -u
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
