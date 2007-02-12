@@ -3,15 +3,15 @@
 %bcond_with	pcre	# with PCRE support
 #
 Summary:	GNU grep Utilities
-Summary(de):	GNU-Version der Pattern-Matching-Utilities
-Summary(es):	Utilitarios grep GNU
-Summary(fr):	Utilitaires grep de GNU
-Summary(ja):	GNU grep ¤ÎÆüËÜ¸ìÂĞ±şÈÇ¤Ç¤¹.
-Summary(pl):	GNU grep
-Summary(pt_BR):	Utilitários grep GNU
-Summary(ru):	õÔÉÌÉÔÙ ĞÏÉÓËÁ ĞÏ ÛÁÂÌÏÎÁÍ GNU grep
-Summary(tr):	Dosyalarda katar arama aracı
-Summary(uk):	õÔÉÌ¦ÔÉ ĞÏÛÕËÕ ĞÏ ÛÁÂÌÏÎÁÍ GNU grep
+Summary(de.UTF-8):   GNU-Version der Pattern-Matching-Utilities
+Summary(es.UTF-8):   Utilitarios grep GNU
+Summary(fr.UTF-8):   Utilitaires grep de GNU
+Summary(ja.UTF-8):   GNU grep ã®æ—¥æœ¬èªå¯¾å¿œç‰ˆã§ã™.
+Summary(pl.UTF-8):   GNU grep
+Summary(pt_BR.UTF-8):   UtilitÃ¡rios grep GNU
+Summary(ru.UTF-8):   Ğ£Ñ‚Ğ¸Ğ»Ğ¸Ñ‚Ñ‹ Ğ¿Ğ¾Ğ¸ÑĞºĞ° Ğ¿Ğ¾ ÑˆĞ°Ğ±Ğ»Ğ¾Ğ½Ğ°Ğ¼ GNU grep
+Summary(tr.UTF-8):   Dosyalarda katar arama aracÄ±
+Summary(uk.UTF-8):   Ğ£Ñ‚Ğ¸Ğ»Ñ–Ñ‚Ğ¸ Ğ¿Ğ¾ÑˆÑƒĞºÑƒ Ğ¿Ğ¾ ÑˆĞ°Ğ±Ğ»Ğ¾Ğ½Ğ°Ğ¼ GNU grep
 Name:		grep
 Version:	2.5.1a
 Release:	2
@@ -44,46 +44,46 @@ more input files for lines which contain a match to a specified
 pattern and then prints the matching lines. GNU's grep utilities
 include grep, egrep and fgrep.
 
-%description -l de
-Die GNU-Versionen der häufig benutzten grep-Utilities. Grep durchsucht
+%description -l de.UTF-8
+Die GNU-Versionen der hÃ¤ufig benutzten grep-Utilities. Grep durchsucht
 eine oder mehrere Eingabedateien nach Zeilen, die auf ein angegebenes
 Muster passen, und zeigt dann die entsprechenden Zeilen an. GNUs grep
-enthält grep, egrep und fgrep.
+enthÃ¤lt grep, egrep und fgrep.
 
-%description -l es
-Esta es la implementación GNU del popular utilitario grep. Permite la
-localización rápida de strings en archivos texto.
+%description -l es.UTF-8
+Esta es la implementaciÃ³n GNU del popular utilitario grep. Permite la
+localizaciÃ³n rÃ¡pida de strings en archivos texto.
 
-%description -l fr
-Ceci est l'implémentation par GNU du populaire l'utilitaire grep su
-Unix. Il permet de localiser rapidement des chaînes de caractéres dans
+%description -l fr.UTF-8
+Ceci est l'implÃ©mentation par GNU du populaire l'utilitaire grep su
+Unix. Il permet de localiser rapidement des chaÃ®nes de caractÃ©res dans
 les fichiers.
 
-%description -l ja
-GNU ¥×¥í¥¸¥§¥¯¥È¤Ë¤è¤ë grep, egrep, fgrep (°Ê²¼Ã±¤Ë grep) ¤ò¥Ş¥ë¥Á¥Ğ
-¥¤¥È¥Ñ¥Ã¥Á(mb1.04)¤Ë¤è¤Ã¤ÆÆüËÜ¸ìÂĞ±ş¤Ë¤·¤¿¤â¤Î¤Ç¤¹.
+%description -l ja.UTF-8
+GNU ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã«ã‚ˆã‚‹ grep, egrep, fgrep (ä»¥ä¸‹å˜ã« grep) ã‚’ãƒãƒ«ãƒãƒ
+ã‚¤ãƒˆãƒ‘ãƒƒãƒ(mb1.04)ã«ã‚ˆã£ã¦æ—¥æœ¬èªå¯¾å¿œã«ã—ãŸã‚‚ã®ã§ã™.
 
-%description -l pl
-GNU grep jest implementacj± popularnego programu uniksowego `grep'.
-Grep jest jednym z podstawowych narzêdzi, korzysta z niego prawie
-ka¿dy skrypt shella.
+%description -l pl.UTF-8
+GNU grep jest implementacjÄ… popularnego programu uniksowego `grep'.
+Grep jest jednym z podstawowych narzÄ™dzi, korzysta z niego prawie
+kaÅ¼dy skrypt shella.
 
-%description -l pt_BR
-Esta é a implementação GNU do popular utilitário grep. Permite a
-localização rápida de strings em arquivos texto.
+%description -l pt_BR.UTF-8
+Esta Ã© a implementaÃ§Ã£o GNU do popular utilitÃ¡rio grep. Permite a
+localizaÃ§Ã£o rÃ¡pida de strings em arquivos texto.
 
-%description -l ru
-üÔÏ ÒÅÁÌÉÚÁÃÉÑ GNU ÕÔÉÌÉÔÙ grep, ĞÒÅÄÎÁÚÎÁŞÅÎÎÏÊ ÄÌÑ ÂÙÓÔÒÏÇÏ ĞÏÉÓËÁ
-ĞÏ ÏÂÒÁÚÃÕ × ÔÅËÓÔÏ×ÙÈ ÆÁÊÌÁÈ.
+%description -l ru.UTF-8
+Ğ­Ñ‚Ğ¾ Ñ€ĞµĞ°Ğ»Ğ¸Ğ·Ğ°Ñ†Ğ¸Ñ GNU ÑƒÑ‚Ğ¸Ğ»Ğ¸Ñ‚Ñ‹ grep, Ğ¿Ñ€ĞµĞ´Ğ½Ğ°Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ½Ğ¾Ğ¹ Ğ´Ğ»Ñ Ğ±Ñ‹ÑÑ‚Ñ€Ğ¾Ğ³Ğ¾ Ğ¿Ğ¾Ğ¸ÑĞºĞ°
+Ğ¿Ğ¾ Ğ¾Ğ±Ñ€Ğ°Ğ·Ñ†Ñƒ Ğ² Ñ‚ĞµĞºÑÑ‚Ğ¾Ğ²Ñ‹Ñ… Ñ„Ğ°Ğ¹Ğ»Ğ°Ñ….
 
-%description -l tr
-Bu, bütün Unix'lerde bulunan ve yaygın olarak kullanılan grep aracının
-GNU sürümüdür. Metin dosyaları içinde bulunan katarları aramada
-kullanılır.
+%description -l tr.UTF-8
+Bu, bÃ¼tÃ¼n Unix'lerde bulunan ve yaygÄ±n olarak kullanÄ±lan grep aracÄ±nÄ±n
+GNU sÃ¼rÃ¼mÃ¼dÃ¼r. Metin dosyalarÄ± iÃ§inde bulunan katarlarÄ± aramada
+kullanÄ±lÄ±r.
 
-%description -l uk
-ãÅ GNU ÒÅÁÌ¦ÚÁÃ¦Ñ ĞÏĞÕÌÑÒÎÏ§ ÕÔÉÌ¦ÔÉ grep, ĞÒÉÚÎÁŞÅÎÏ§ ÄÌÑ Û×ÉÄËÏÇÏ
-ĞÏÛÕËÕ ĞÏ ÛÁÂÌÏÎÕ × ÔÅËÓÔÏ×ÉÈ ÆÁÊÌÁÈ.
+%description -l uk.UTF-8
+Ğ¦Ğµ GNU Ñ€ĞµĞ°Ğ»Ñ–Ğ·Ğ°Ñ†Ñ–Ñ Ğ¿Ğ¾Ğ¿ÑƒĞ»ÑÑ€Ğ½Ğ¾Ñ— ÑƒÑ‚Ğ¸Ğ»Ñ–Ñ‚Ğ¸ grep, Ğ¿Ñ€Ğ¸Ğ·Ğ½Ğ°Ñ‡ĞµĞ½Ğ¾Ñ— Ğ´Ğ»Ñ ÑˆĞ²Ğ¸Ğ´ĞºĞ¾Ğ³Ğ¾
+Ğ¿Ğ¾ÑˆÑƒĞºÑƒ Ğ¿Ğ¾ ÑˆĞ°Ğ±Ğ»Ğ¾Ğ½Ñƒ Ğ² Ñ‚ĞµĞºÑÑ‚Ğ¾Ğ²Ğ¸Ñ… Ñ„Ğ°Ğ¹Ğ»Ğ°Ñ….
 
 %prep
 %setup -q
