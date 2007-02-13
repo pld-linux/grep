@@ -3,15 +3,15 @@
 %bcond_with	pcre	# with PCRE support
 #
 Summary:	GNU grep Utilities
-Summary(de.UTF-8):   GNU-Version der Pattern-Matching-Utilities
-Summary(es.UTF-8):   Utilitarios grep GNU
-Summary(fr.UTF-8):   Utilitaires grep de GNU
-Summary(ja.UTF-8):   GNU grep の日本語対応版です.
-Summary(pl.UTF-8):   GNU grep
-Summary(pt_BR.UTF-8):   Utilitários grep GNU
-Summary(ru.UTF-8):   Утилиты поиска по шаблонам GNU grep
-Summary(tr.UTF-8):   Dosyalarda katar arama aracı
-Summary(uk.UTF-8):   Утиліти пошуку по шаблонам GNU grep
+Summary(de.UTF-8):	GNU-Version der Pattern-Matching-Utilities
+Summary(es.UTF-8):	Utilitarios grep GNU
+Summary(fr.UTF-8):	Utilitaires grep de GNU
+Summary(ja.UTF-8):	GNU grep の日本語対応版です.
+Summary(pl.UTF-8):	GNU grep
+Summary(pt_BR.UTF-8):	Utilitários grep GNU
+Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
+Summary(tr.UTF-8):	Dosyalarda katar arama aracı
+Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.1a
 Release:	2
