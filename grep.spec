@@ -13,20 +13,21 @@ Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
 Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	2.5.1a
-Release:	2
+Version:	2.5.3
+Release:	1
 Epoch:		2
-License:	GPL
+License:	GPL v3+
 Group:		Applications/Text
 Source0:	ftp://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.gz
-# Source0-md5:	71db1cb262c27f02461c4bca514591ce
+# Source0-md5:	4f371f25f413f700fb1984b878421f9d
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
-Patch1:		%{name}-egrep.patch
-Patch2:		%{name}-locale-names.patch
+Patch1:		%{name}-locale-names.patch
+Patch2:		%{name}-pl.po-update.patch
+Patch3:		%{name}-strerror.patch
 URL:		http://www.gnu.org/software/grep/grep.html
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.53
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
@@ -90,28 +91,17 @@ kullanılır.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
-rm -f m4/{header,init}.m4
-
-# hack: AC_FUNC_STRERROR_R from strerror_r.m4 must override autoconf's version
-# (it contains HAVE_WORKING_STRERROR_R define, needed with glibc 2.x, as
-#  glibc version returns pointer to string and doesn't seem to store string in
-#  supplied buffer(???))
-cat m4/strerror_r.m4 >> acinclude.m4
-touch m4/{header,init}.m4
-
-# there is nb.po included, but more outdated than no.po (only no was in LINGUAS)
-mv -f po/{no,nb}.po
+# outdated, there is already nb.po
+rm -f po/no.po
 
 %build
 %{__libtoolize}
 %{__aclocal} -I m4
 %{__automake}
+%{__autoheader}
 %{__autoconf}
-%ifarch sparc sparc64
-CPPFLAGS=""
-export CPPFLAGS
-%endif
 %configure \
 	%{!?with_pcre:--disable-perl-regexp} \
 	--without-included-regex \
