@@ -1,14 +1,13 @@
-diff -Nru grep-2.3/doc/grep.texi grep-2.3.new/doc/grep.texi
---- grep-2.3/doc/grep.texi	Wed Feb 10 06:34:47 1999
-+++ grep-2.3.new/doc/grep.texi	Wed Apr 28 21:30:50 1999
-@@ -24,8 +24,9 @@
- @syncodeindex op fn
+--- grep-2.5.3/doc/grep.texi.orig	2006-08-19 00:00:31.000000000 +0200
++++ grep-2.5.3/doc/grep.texi	2007-08-28 19:31:10.920506748 +0200
+@@ -25,8 +25,9 @@
+ @syncodeindex vr fn
  
  @ifinfo
 +@dircategory File utilities:
  @direntry
--* grep: (grep).                   print lines matching a pattern.
-+* grep: (grep).				Print lines matching a pattern
+-* grep: (grep).                 print lines matching a pattern.
++* grep: (grep).				print lines matching a pattern
  @end direntry
- This file documents @sc{grep}, a pattern matching engine.
+ This file documents @command{grep}, a pattern matching engine.
  
