@@ -18,7 +18,7 @@ Release:	1
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
-Source0:	ftp://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.gz
+Source0:	http://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.gz
 # Source0-md5:	4f371f25f413f700fb1984b878421f9d
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
