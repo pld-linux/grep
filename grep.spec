@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	pcre	# with PCRE support
+%bcond_without	pcre	# with PCRE support
 #
 Summary:	GNU grep Utilities
 Summary(de.UTF-8):	GNU-Version der Pattern-Matching-Utilities
@@ -14,7 +14,7 @@ Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.3
-Release:	1
+Release:	2
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
