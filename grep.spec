@@ -14,7 +14,7 @@ Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.3
-Release:	3
+Release:	4
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
