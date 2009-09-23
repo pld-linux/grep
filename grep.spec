@@ -14,7 +14,7 @@ Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.5.4
-Release:	2
+Release:	3
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
@@ -26,9 +26,8 @@ Patch0:		%{name}-info.patch
 Patch1:		%{name}-strerror.patch
 # from debian; very important for multibytes locale; see https://savannah.gnu.org/bugs/?14472
 Patch2:		%{name}-egf-speedup.patch
-Patch3:		%{name}-dfa-optional.patch
-Patch4:		%{name}-match_icase.patch
-Patch5:		%{name}-pl.po-update.patch
+Patch3:		%{name}-match_icase.patch
+Patch4:		%{name}-pl.po-update.patch
 URL:		http://www.gnu.org/software/grep/grep.html
 BuildRequires:	autoconf >= 2.53
 BuildRequires:	automake
@@ -95,8 +94,7 @@ kullanılır.
 %patch1 -p1
 %patch2 -p0
 %patch3 -p0
-%patch4 -p0
-%patch5 -p1
+%patch4 -p1
 
 %build
 %{__libtoolize}
