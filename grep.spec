@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	pcre	# with PCRE support
+%bcond_without	tests
 #
 Summary:	GNU grep Utilities
 Summary(de.UTF-8):	GNU-Version der Pattern-Matching-Utilities
@@ -107,6 +108,8 @@ kullanılır.
 	--without-included-regex \
 	--enable-nls
 %{__make}
+
+%{?with_tests:%{__make} check}
 
 %install
 rm -rf $RPM_BUILD_ROOT
