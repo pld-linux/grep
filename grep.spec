@@ -14,13 +14,13 @@ Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
 Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	2.6.1
+Version:	2.6.2
 Release:	1
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
-Source0:	http://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.gz
-# Source0-md5:	8d1496da11029112a4d0986cbf09e26f
+Source0:	http://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
+# Source0-md5:	b2d5841757ab065b28d0ff4c7ca2eca8
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
@@ -30,7 +30,9 @@ BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	libtool
 %{?with_pcre:BuildRequires:	pcre-devel}
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	texinfo
+BuildRequires:	xz
 %{?with_pcre:Requires:	pcre}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -96,8 +98,8 @@ kullanılır.
 %{__autoconf}
 %configure \
 	%{!?with_pcre:--disable-perl-regexp} \
-	--without-included-regex \
-	--enable-nls
+	--disable-silent-rules \
+	--without-included-regex
 %{__make}
 
 %{?with_tests:%{__make} check}
