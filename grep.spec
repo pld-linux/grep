@@ -1,7 +1,7 @@
 #
 # Conditional build:
-%bcond_without	pcre	# with PCRE support
-%bcond_without	tests
+%bcond_without	pcre	# PCRE support
+%bcond_without	tests	# don't perform "make check"
 #
 Summary:	GNU grep Utilities
 Summary(de.UTF-8):	GNU-Version der Pattern-Matching-Utilities
@@ -14,13 +14,13 @@ Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
 Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	2.6.3
+Version:	2.7
 Release:	1
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
 Source0:	http://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
-# Source0-md5:	69a3bf508a3f14d12369e0e1c7a92763
+# Source0-md5:	6dd9931a52501519d7779a27cf953326
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
@@ -28,12 +28,10 @@ URL:		http://www.gnu.org/software/grep/grep.html
 BuildRequires:	autoconf >= 2.53
 BuildRequires:	automake
 BuildRequires:	gettext-devel
-BuildRequires:	libtool
 %{?with_pcre:BuildRequires:	pcre-devel}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	texinfo
 BuildRequires:	xz
-%{?with_pcre:Requires:	pcre}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_bindir		/bin
@@ -91,11 +89,11 @@ kullanılır.
 %patch0 -p1
 
 %build
-%{__libtoolize}
+%{__gettextize}
 %{__aclocal} -I m4
-%{__automake}
-%{__autoheader}
 %{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	%{!?with_pcre:--disable-perl-regexp} \
 	--disable-silent-rules \
@@ -140,9 +138,13 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc NEWS README ChangeLog TODO
-%config(noreplace,missingok) %verify(not md5 mtime size) /etc/env.d/*
-%attr(755,root,root) %{_bindir}/*
-%{_mandir}/man1/*
+%config(noreplace,missingok) %verify(not md5 mtime size) /etc/env.d/GREP_OPTIONS
+%attr(755,root,root) %{_bindir}/egrep
+%attr(755,root,root) %{_bindir}/fgrep
+%attr(755,root,root) %{_bindir}/grep
+%{_mandir}/man1/egrep.1*
+%{_mandir}/man1/fgrep.1*
+%{_mandir}/man1/grep.1*
 %lang(cs) %{_mandir}/cs/man1/*
 %lang(de) %{_mandir}/de/man1/*
 %lang(es) %{_mandir}/es/man1/*
@@ -153,4 +155,4 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ja) %{_mandir}/ja/man1/*
 %lang(nl) %{_mandir}/nl/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
-%{_infodir}/*info*
+%{_infodir}/grep.info*
