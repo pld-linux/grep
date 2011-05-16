@@ -25,9 +25,9 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/grep/grep.html
-BuildRequires:	autoconf >= 2.53
-BuildRequires:	automake
-BuildRequires:	gettext-devel
+BuildRequires:	autoconf >= 2.59
+BuildRequires:	automake >= 1:1.11
+BuildRequires:	gettext-devel >= 0.18
 %{?with_pcre:BuildRequires:	pcre-devel}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	texinfo
