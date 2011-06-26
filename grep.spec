@@ -14,16 +14,17 @@ Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
 Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	2.8
+Version:	2.9
 Release:	1
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
 Source0:	http://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
-# Source0-md5:	b59003c42b330bdabd417e00d07102da
+# Source0-md5:	25e41b2aa201104354740961ef36005a
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
+Patch1:		%{name}-pl.po-update.patch
 URL:		http://www.gnu.org/software/grep/grep.html
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.11
@@ -87,6 +88,9 @@ kullanılır.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+
+%{__rm} po/stamp-po
 
 %build
 %{__gettextize}
@@ -121,8 +125,8 @@ EOF
 %find_lang %{name}
 
 rm -f $RPM_BUILD_ROOT%{_infodir}/dir
-rm -f $RPM_BUILD_ROOT%{_mandir}/README.grep-non-english-man-pages
-rm -f $RPM_BUILD_ROOT%{_mandir}/ja-grep-nozgrep.diff
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/README.grep-non-english-man-pages
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/ja-grep-nozgrep.diff
 
 %clean
 rm -rf $RPM_BUILD_ROOT
