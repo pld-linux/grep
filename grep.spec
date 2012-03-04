@@ -24,6 +24,7 @@ Source0:	http://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
+Patch1:		%{name}-pl.po-update.patch
 URL:		http://www.gnu.org/software/grep/grep.html
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.11
@@ -87,6 +88,7 @@ kullanılır.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %{__rm} po/stamp-po
 

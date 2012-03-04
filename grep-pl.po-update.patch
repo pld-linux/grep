@@ -1,0 +1,168 @@
+--- grep-2.11/po/pl.po.orig	2012-03-02 08:18:46.000000000 +0100
++++ grep-2.11/po/pl.po	2012-03-04 10:27:34.119220907 +0100
+@@ -373,19 +373,19 @@
+ msgstr "Pomoc w używaniu oprogramowania GNU: http://www.gnu.org/gethelp/\n"
+ 
+ #: lib/xstrtol-error.c:63
+-#, fuzzy, c-format
++#, c-format
+ msgid "invalid %s%s argument '%s'"
+-msgstr "błędny argument %s%s `%s'"
++msgstr "błędny argument %s%s '%s'"
+ 
+ #: lib/xstrtol-error.c:68
+-#, fuzzy, c-format
++#, c-format
+ msgid "invalid suffix in %s%s argument '%s'"
+-msgstr "błędny przyrostek w argumencie %s%s `%s'"
++msgstr "błędny przyrostek w argumencie %s%s '%s'"
+ 
+ #: lib/xstrtol-error.c:72
+-#, fuzzy, c-format
++#, c-format
+ msgid "%s%s argument '%s' too large"
+-msgstr "argument %s%s `%s' jest za duży"
++msgstr "argument %s%s '%s' jest za duży"
+ 
+ #: src/dfa.c:949 src/dfa.c:952 src/dfa.c:972 src/dfa.c:982 src/dfa.c:994
+ #: src/dfa.c:1047 src/dfa.c:1056 src/dfa.c:1059 src/dfa.c:1064 src/dfa.c:1077
+@@ -430,31 +430,28 @@
+ msgstr "WZORZEC jest rozszerzonym wyrażeniem regularnym (ERE).\n"
+ 
+ #: src/egrep.c:18
+-#, fuzzy
+ msgid "Invocation as 'egrep' is deprecated; use 'grep -E' instead.\n"
+-msgstr "Wywołanie jako `egrep' jest przestarzałe, używał `grep -E'.\n"
++msgstr "Wywołanie jako 'egrep' jest przestarzałe, zamiast tego należy używać 'grep -E'.\n"
+ 
+ #: src/fgrep.c:10
+ msgid "PATTERN is a set of newline-separated fixed strings.\n"
+ msgstr "WZORZEC jest zbiorem łańcuchów znaków w kolejnych liniach.\n"
+ 
+ #: src/fgrep.c:12
+-#, fuzzy
+ msgid "Invocation as 'fgrep' is deprecated; use 'grep -F' instead.\n"
+-msgstr "Wywołanie jako `fgrep' jest przestarzałe, używał `grep -F'.\n"
++msgstr "Wywołanie jako 'fgrep' jest przestarzałe, zamiast tego należy używać 'grep -F'.\n"
+ 
+ #: src/grep.c:32
+ msgid "PATTERN is, by default, a basic regular expression (BRE).\n"
+ msgstr "WZORZEC domyślnie jest podstawowym wyrażeniem regularnym (BRE).\n"
+ 
+ #: src/grep.c:34
+-#, fuzzy
+ msgid ""
+ "'egrep' means 'grep -E'.  'fgrep' means 'grep -F'.\n"
+ "Direct invocation as either 'egrep' or 'fgrep' is deprecated.\n"
+ msgstr ""
+-"`egrep' oznacza `grep -E'. `fgrep' oznacza `grep -F'.\n"
+-"Używanie nazw `egrep' i `fgrep' jest przestarzałe.\n"
++"'egrep' oznacza 'grep -E'. 'fgrep' oznacza 'grep -F'.\n"
++"Używanie nazw 'egrep' i 'fgrep' jest przestarzałe.\n"
+ 
+ #. This is a proper name. See the gettext manual, section Names.
+ #: src/main.c:58
+@@ -507,9 +504,9 @@
+ msgstr "Składnia: %s [OPCJA]... WZORZEC [PLIK] ...\n"
+ 
+ #: src/main.c:1444
+-#, fuzzy, c-format
++#, c-format
+ msgid "Try '%s --help' for more information.\n"
+-msgstr "Napisz `%s --help' żeby dowiedzieć się więcej.\n"
++msgstr "Polecenie '%s --help' wyświetli więcej informacji.\n"
+ 
+ #: src/main.c:1450
+ #, c-format
+@@ -560,7 +557,7 @@
+ "                            nowej linii\n"
+ 
+ #: src/main.c:1471
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "\n"
+ "Miscellaneous:\n"
+@@ -573,10 +570,10 @@
+ "\n"
+ "Różne:\n"
+ "  -s, --no-messages         bez komunikatów o błędach\n"
+-"  -v, --invert-match        wybierz linie nie pasujące\n"
+-"  -V, --version             wypisz informację o wersji i zakończ\n"
+-"      --help                wyświetl tę informację i zakończ\n"
+-"      --mmap                jeżeli możliwe mapuj pliki w pamięci\n"
++"  -v, --invert-match        wybór linii nie pasujące\n"
++"  -V, --version             wypisanie informacji o wersji i zakończenie\n"
++"      --help                wyświetlenie tego opisu i zakończenie\n"
++"      --mmap                przestarzałe; powoduje tylko ostrzeżenie\n"
+ 
+ #: src/main.c:1479
+ #, c-format
+@@ -684,7 +681,7 @@
+ "  -C, --context=ILE         wypisanie ILU linii kontekstu\n"
+ 
+ #: src/main.c:1524
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "  -NUM                      same as --context=NUM\n"
+ "      --color[=WHEN],\n"
+@@ -696,18 +693,17 @@
+ "                            (MSDOS/Windows)\n"
+ "\n"
+ msgstr ""
+-"  -ILE                      to samo co --context=ILE\n"
++"  -ILE                      to samo, co --context=ILE\n"
+ "      --color[=KIEDY],\n"
+ "      --colour[=KIEDY]      oznaczanie pasujących znaków,\n"
+ "                            KIEDY to `always' (zawsze), `never' (nigdy)\n"
+ "                            albo `auto' (automatycznie).\n"
+-"  -U, --binary              bez usuwania znaków nowej linii na końcu\n"
+-"  -u, --unix-byte-offsets   podawanie pozycji tak jakby nie było CRów "
+-"(MSDOS)\n"
++"  -U, --binary              bez usuwania znaków CR na końcu linii (DOS/Windows)\n"
++"  -u, --unix-byte-offsets   podawanie pozycji tak jakby nie było znaków CR\n"
+ "\n"
+ 
+ #: src/main.c:1534
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "When FILE is -, read standard input.  With no FILE, read . if a command-"
+ "line\n"
+@@ -715,9 +711,11 @@
+ "Exit status is 0 if any line is selected, 1 otherwise;\n"
+ "if any error occurs and -q is not given, the exit status is 2.\n"
+ msgstr ""
+-"Bez podanie PLIKU albo gdy PLIK to -, czytane jest standardowe wejście.\n"
+-"Jeżeli podano mniej niż dwa PLIKI, zakłada -h. Zakończenie z kodem 0\n"
+-"jeżeli WZORZEC pasuje, z 1, jeżeli nie, z 2, jeżeli są problemy.\n"
++"Jeżeli PLIK to -, czytane jest standardowe wejście. Bez podania PLIKU,\n"
++"czytany jest katalog . jeśli podano opcję -r, w przeciwnym wypadku -.\n"
++"Jeżeli podano mniej niż dwa PLIKI, zakładane jest -h. Zakończenie z kodem 0\n"
++"jeżeli WZORZEC pasuje, z 1, jeżeli nie; w przypadku błędów, jeżeli nie podano\n"
++"opcji -q, z 2.\n"
+ 
+ #: src/main.c:1540
+ #, c-format
+@@ -765,7 +763,7 @@
+ #: src/main.c:2084
+ #, c-format
+ msgid "the --mmap option has been a no-op since 2010"
+-msgstr ""
++msgstr "opcja --mmap nie daje żadnego efektu od 2010 roku"
+ 
+ #: src/pcresearch.c:42
+ msgid ""
+@@ -785,9 +783,9 @@
+ msgstr "błąd wewnętrzny"
+ 
+ #: src/pcresearch.c:138
+-#, fuzzy, c-format
++#, c-format
+ msgid "exceeded PCRE's line length limit"
+-msgstr "przekroczony limit analizy wstecznej PCRE"
++msgstr "przekroczony limit długości linii PCRE"
+ 
+ #: src/pcresearch.c:157
+ #, c-format
