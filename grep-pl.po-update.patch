@@ -1,0 +1,69 @@
+--- grep-2.13/po/pl.po.orig	2012-07-04 17:25:56.000000000 +0200
++++ grep-2.13/po/pl.po	2012-07-05 17:41:21.196339565 +0200
+@@ -4,10 +4,10 @@
+ # Rafał Maszkowski <rzm@icm.edu.pl>, 1996-2002, 2005, 2007-2012.
+ msgid ""
+ msgstr ""
+-"Project-Id-Version: GNU grep 2.11.11-pre1\n"
++"Project-Id-Version: GNU grep 2.13\n"
+ "Report-Msgid-Bugs-To: bug-grep@gnu.org\n"
+ "POT-Creation-Date: 2012-07-04 17:25+0200\n"
+-"PO-Revision-Date: 2012-04-14 22:45+0200\n"
++"PO-Revision-Date: 2012-07-05 17:40+0200\n"
+ "Last-Translator: Rafał Maszkowski <rzm@icm.edu.pl>\n"
+ "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
+ "Language: pl\n"
+@@ -602,7 +602,7 @@
+ "      --label=ETYKIETA      w wyniku ETYKIETA zastępuje nazwe pliku\n"
+ 
+ #: src/main.c:1596
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "  -o, --only-matching       show only the part of a line matching PATTERN\n"
+ "  -q, --quiet, --silent     suppress all normal output\n"
+@@ -611,13 +611,13 @@
+ "  -a, --text                equivalent to --binary-files=text\n"
+ msgstr ""
+ "  -o, --only-matching       pokazanie tylko kawałka, który pasuje do WZORCA\n"
+-"  -q, --quiet, --silent     wyłączenie wypisywanie wyniku\n"
++"  -q, --quiet, --silent     wyłączenie zwykłego wyjścia\n"
+ "      --binary-files=TYP    założenie, że pliki binarne są typu TYP\n"
+ "                            TYP to 'binary', 'text' lub 'without-match'.\n"
+ "  -a, --text                równoważne --binary-files=text\n"
+ 
+ #: src/main.c:1603
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "  -I                        equivalent to --binary-files=without-match\n"
+ "  -d, --directories=ACTION  how to handle directories;\n"
+@@ -629,7 +629,7 @@
+ msgstr ""
+ "  -I                        równoważne --binary-files=without-match\n"
+ "  -d, --directories=DZIAŁANIE  jak się obchodzić z katalogami,\n"
+-"                            DZIAŁANIE to `read' (czytanie), `recurse'\n"
++"                            DZIAŁANIE to 'read' (czytanie), 'recurse'\n"
+ "                            (przeglądanie rekurencujne) albo 'skip'\n"
+ "                            (pominięcie).\n"
+ "  -D, --devices=DZIAŁANIE   jak odwoływać się do urządzeń, FIFO i gniazd,\n"
+@@ -686,7 +686,7 @@
+ "  -C, --context=ILE         wypisanie ILU linii kontekstu\n"
+ 
+ #: src/main.c:1631
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "  -NUM                      same as --context=NUM\n"
+ "      --color[=WHEN],\n"
+@@ -701,8 +701,8 @@
+ "  -ILE                      to samo co --context=ILE\n"
+ "      --color[=KIEDY],\n"
+ "      --colour[=KIEDY]      oznaczanie pasujących znaków,\n"
+-"                            KIEDY to `always' (zawsze), `never' (nigdy)\n"
+-"                            albo `auto' (automatycznie).\n"
++"                            KIEDY to 'always' (zawsze), 'never' (nigdy)\n"
++"                            albo 'auto' (automatycznie).\n"
+ "  -U, --binary              bez usuwania znaków nowej linii na końcu\n"
+ "                              (MSDOS/Windows)\n"
+ "  -u, --unix-byte-offsets   podawanie pozycji tak jakby nie było CRów\n"
