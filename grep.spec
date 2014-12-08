@@ -15,7 +15,7 @@ Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.21
-Release:	1
+Release:	2
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
@@ -108,7 +108,7 @@ kullanılır.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/etc/env.d
+install -d $RPM_BUILD_ROOT/etc/shrc.d
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -118,8 +118,11 @@ echo .so grep.1 > $RPM_BUILD_ROOT%{_mandir}/man1/fgrep.1
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
-cat << EOF >$RPM_BUILD_ROOT/etc/env.d/GREP_OPTIONS
-#GREP_OPTIONS="--binary-files=without-match --directories=skip --color=auto"
+cat << EOF >$RPM_BUILD_ROOT/etc/shrc.d/grep.sh
+alias grep='/bin/grep --binary-files=without-match --devices=skip --directories=skip --color=auto'
+EOF
+cat << EOF >$RPM_BUILD_ROOT/etc/shrc.d/grep.csh
+alias grep '/bin/grep --binary-files=without-match --devices=skip --directories=skip --color=auto'
 EOF
 
 %find_lang %{name}
@@ -133,16 +136,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
--/sbin/env-update -u
 
 %postun -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
--/sbin/env-update -u
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc NEWS README ChangeLog TODO
-%config(noreplace,missingok) %verify(not md5 mtime size) /etc/env.d/GREP_OPTIONS
+%config(noreplace) %verify(not md5 mtime size) /etc/shrc.d/grep.sh
+%config(noreplace) %verify(not md5 mtime size) /etc/shrc.d/grep.csh
 %attr(755,root,root) %{_bindir}/egrep
 %attr(755,root,root) %{_bindir}/fgrep
 %attr(755,root,root) %{_bindir}/grep
