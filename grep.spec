@@ -28,7 +28,7 @@ Patch1:		%{name}-pl.po-update.patch
 URL:		http://www.gnu.org/software/grep/grep.html
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.11
-BuildRequires:	gettext-devel >= 0.18.2
+BuildRequires:	gettext-tools >= 0.18.2
 %{?with_pcre:BuildRequires:	pcre-devel}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	texinfo
