@@ -104,7 +104,7 @@ kullanılır.
 	--without-included-regex
 %{__make}
 
-%{?with_tests:%{__make} check-expensive}
+%{?with_tests:%{__make} -j1 check-expensive}
 
 %install
 rm -rf $RPM_BUILD_ROOT
