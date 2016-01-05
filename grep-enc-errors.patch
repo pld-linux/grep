@@ -1,0 +1,918 @@
+From 8521001643bc6a28c760552824eaea5ecee0aa8c Mon Sep 17 00:00:00 2001
+From: Paul Eggert <eggert@cs.ucla.edu>
+Date: Thu, 31 Dec 2015 03:10:14 +0000
+Subject: grep: be less picky about encoding errors
+
+This fixes a longstanding problem introduced in grep 2.21,
+which is overly picky about binary files.
+* NEWS:
+* doc/grep.texi (File and Directory Selection): Document this.
+* src/grep.c (input_textbin, textbin_is_binary, buffer_textbin)
+(file_textbin):
+Remove.  All uses removed.
+(encoding_error_output): New static var.
+(buf_has_encoding_errors, buf_has_nulls, file_must_have_nulls):
+New functions, which reuse bits
+and pieces of the removed functions.
+(lastout, print_line_head, print_line_middle, print_line_tail, prline)
+(prpending, prtext, grepbuf):
+Avoid use of const, now that we have
+functions that require modifying a sentinel.
+(print_line_head): New arg LEN.  All uses changed.
+(print_line_head, print_line_tail):
+Return indicator whether the output line was printed.
+All uses changed.
+(print_line_middle): Exit early on encoding error.
+(grep): Use new method for determining whether file is binary.
+* src/grep.h (enum textbin, TEXTBIN_BINARY, TEXTBIN_UNKNOWN)
+(TEXTBIN_TEXT, input_textbin): Remove decls.  All uses removed.
+* src/pcresearch.c (Pexecute): Remove multiline optimization,
+since the main program no longer checks for encoding errors on input.
+* tests/encoding-error: New file.
+* tests/Makefile.am (TESTS): Add it.
+---
+diff --git a/doc/grep.texi b/doc/grep.texi
+index 76c7f46..58e7f48 100644
+--- a/doc/grep.texi
++++ b/doc/grep.texi
+@@ -596,13 +596,13 @@ If a file's allocation metadata,
+ or if its data read before a line is selected for output,
+ indicate that the file contains binary data,
+ assume that the file is of type @var{type}.
+-Non-text bytes indicate binary data; these are either data bytes
+-improperly encoded for the current locale, or null bytes when the
++Non-text bytes indicate binary data; these are either output bytes that are
++improperly encoded for the current locale, or null input bytes when the
+ @option{-z} (@option{--null-data}) option is not given (@pxref{Other
+ Options}).
+ 
+-By default, @var{type} is @samp{binary},
+-and @command{grep} normally outputs either
++By default, @var{type} is @samp{binary}, and when @command{grep}
++discovers that a file is binary it normally outputs either
+ a one-line message saying that a binary file matches,
+ or no message if there is no match.
+ When processing binary data, @command{grep} may treat non-text bytes
+@@ -611,7 +611,8 @@ not match a null byte, as the null byte might be treated as a line
+ terminator even without the @option{-z} (@option{--null-data}) option.
+ 
+ If @var{type} is @samp{without-match},
+-@command{grep} assumes that a binary file does not match;
++when @command{grep} discovers that a file is binary
++it assumes that the rest of the file does not match;
+ this is equivalent to the @option{-I} option.
+ 
+ If @var{type} is @samp{text},
+diff --git a/src/grep.c b/src/grep.c
+index 19ba208..e059a46 100644
+--- a/src/grep.c
++++ b/src/grep.c
+@@ -377,7 +377,6 @@ bool match_icase;
+ bool match_words;
+ bool match_lines;
+ char eolbyte;
+-enum textbin input_textbin;
+ 
+ static char const *matcher;
+ 
+@@ -389,6 +388,10 @@ static bool omit_dot_slash;
+ static bool errseen;
+ static bool write_error_seen;
+ 
++/* True if output from the current input file has been suppressed
++   because an output line had an encoding error.  */
++static bool encoding_error_output;
++
+ enum directories_type
+   {
+     READ_DIRECTORIES = 2,
+@@ -481,12 +484,6 @@ clean_up_stdout (void)
+     close_stdout ();
+ }
+ 
+-static bool
+-textbin_is_binary (enum textbin textbin)
+-{
+-  return textbin < TEXTBIN_UNKNOWN;
+-}
+-
+ /* The high-order bit of a byte.  */
+ enum { HIBYTE = 0x80 };
+ 
+@@ -551,58 +548,60 @@ skip_easy_bytes (char const *buf)
+   return p;
+ }
+ 
+-/* Return the text type of data in BUF, of size SIZE.
++/* Return true if BUF, of size SIZE, has an encoding error.
+    BUF must be followed by at least sizeof (uword) bytes,
+-   which may be arbitrarily written to or read from.  */
+-static enum textbin
+-buffer_textbin (char *buf, size_t size)
++   the first of which may be modified.  */
++static bool
++buf_has_encoding_errors (char *buf, size_t size)
+ {
+-  if (eolbyte && memchr (buf, '\0', size))
+-    return TEXTBIN_BINARY;
++  if (MB_CUR_MAX <= 1)
++    return false;
+ 
+-  if (1 < MB_CUR_MAX)
+-    {
+-      mbstate_t mbs = { 0 };
+-      size_t clen;
+-      char const *p;
++  mbstate_t mbs = { 0 };
++  size_t clen;
+ 
+-      buf[size] = -1;
+-      for (p = buf; (p = skip_easy_bytes (p)) < buf + size; p += clen)
+-        {
+-          clen = mbrlen (p, buf + size - p, &mbs);
+-          if ((size_t) -2 <= clen)
+-            return clen == (size_t) -2 ? TEXTBIN_UNKNOWN : TEXTBIN_BINARY;
+-        }
++  buf[size] = -1;
++  for (char const *p = buf; (p = skip_easy_bytes (p)) < buf + size; p += clen)
++    {
++      clen = mbrlen (p, buf + size - p, &mbs);
++      if ((size_t) -2 <= clen)
++        return true;
+     }
+ 
+-  return TEXTBIN_TEXT;
++  return false;
+ }
+ 
+-/* Return the text type of a file.  BUF, of size SIZE, is the initial
+-   buffer read from the file with descriptor FD and status ST.
+-   BUF must be followed by at least sizeof (uword) bytes,
++
++/* Return true if BUF, of size SIZE, has a null byte.
++   BUF must be followed by at least one byte,
+    which may be arbitrarily written to or read from.  */
+-static enum textbin
+-file_textbin (char *buf, size_t size, int fd, struct stat const *st)
++static bool
++buf_has_nulls (char *buf, size_t size)
+ {
+-  enum textbin textbin = buffer_textbin (buf, size);
+-  if (textbin_is_binary (textbin))
+-    return textbin;
++  buf[size] = 0;
++  return strlen (buf) != size;
++}
+ 
++/* Return true if a file is known to contain null bytes.
++   SIZE bytes have already been read from the file
++   with descriptor FD and status ST.  */
++static bool
++file_must_have_nulls (size_t size, int fd, struct stat const *st)
++{
+   if (usable_st_size (st))
+     {
+       if (st->st_size <= size)
+-        return textbin == TEXTBIN_UNKNOWN ? TEXTBIN_BINARY : textbin;
++        return false;
+ 
+       /* If the file has holes, it must contain a null byte somewhere.  */
+-      if (SEEK_HOLE != SEEK_SET && eolbyte)
++      if (SEEK_HOLE != SEEK_SET)
+         {
+           off_t cur = size;
+           if (O_BINARY || fd == STDIN_FILENO)
+             {
+               cur = lseek (fd, 0, SEEK_CUR);
+               if (cur < 0)
+-                return TEXTBIN_UNKNOWN;
++                return false;
+             }
+ 
+           /* Look for a hole after the current location.  */
+@@ -612,12 +611,12 @@ file_textbin (char *buf, size_t size, int fd, struct stat const *st)
+               if (lseek (fd, cur, SEEK_SET) < 0)
+                 suppressible_error (filename, errno);
+               if (hole_start < st->st_size)
+-                return TEXTBIN_BINARY;
++                return true;
+             }
+         }
+     }
+ 
+-  return TEXTBIN_UNKNOWN;
++  return false;
+ }
+ 
+ /* Convert STR to a nonnegative integer, storing the result in *OUT.
+@@ -899,7 +898,7 @@ static char *label = NULL;      /* Fake filename for stdin */
+ /* Internal variables to keep track of byte count, context, etc. */
+ static uintmax_t totalcc;	/* Total character count before bufbeg. */
+ static char const *lastnl;	/* Pointer after last newline counted. */
+-static char const *lastout;	/* Pointer after last character output;
++static char *lastout;		/* Pointer after last character output;
+                                    NULL if no character has been output
+                                    or if it's conceptually before bufbeg. */
+ static intmax_t outleft;	/* Maximum number of lines to be output.  */
+@@ -971,10 +970,31 @@ print_offset (uintmax_t pos, int min_width, const char *color)
+   pr_sgr_end_if (color);
+ }
+ 
+-/* Print a whole line head (filename, line, byte).  */
+-static void
+-print_line_head (char const *beg, char const *lim, char sep)
++/* Print a whole line head (filename, line, byte).  The output data
++   starts at BEG and contains LEN bytes; it is followed by at least
++   sizeof (uword) bytes, the first of which may be temporarily modified.
++   The output data comes from what is perhaps a larger input line that
++   goes until LIM, where LIM[-1] is an end-of-line byte.  Use SEP as
++   the separator on output.
++
++   Return true unless the line was suppressed due to an encoding error.  */
++
++static bool
++print_line_head (char *beg, size_t len, char const *lim, char sep)
+ {
++  bool encoding_errors = false;
++  if (binary_files != TEXT_BINARY_FILES)
++    {
++      char ch = beg[len];
++      encoding_errors = buf_has_encoding_errors (beg, len);
++      beg[len] = ch;
++    }
++  if (encoding_errors)
++    {
++      encoding_error_output = done_on_match = out_quiet = true;
++      return false;
++    }
++
+   bool pending_sep = false;
+ 
+   if (out_file)
+@@ -1021,22 +1041,27 @@ print_line_head (char const *beg, char const *lim, char sep)
+ 
+       print_sep (sep);
+     }
++
++  return true;
+ }
+ 
+-static const char *
+-print_line_middle (const char *beg, const char *lim,
++static char *
++print_line_middle (char *beg, char *lim,
+                    const char *line_color, const char *match_color)
+ {
+   size_t match_size;
+   size_t match_offset;
+-  const char *cur = beg;
+-  const char *mid = NULL;
+-
+-  while (cur < lim
+-         && ((match_offset = execute (beg, lim - beg, &match_size, cur))
+-             != (size_t) -1))
++  char *cur = beg;
++  char *mid = NULL;
++  char *b;
++
++  for (cur = beg;
++       (cur < lim
++        && ((match_offset = execute (beg, lim - beg, &match_size, cur))
++            != (size_t) -1));
++       cur = b + match_size)
+     {
+-      char const *b = beg + match_offset;
++      b = beg + match_offset;
+ 
+       /* Avoid matching the empty line at the end of the buffer. */
+       if (b == lim)
+@@ -1056,8 +1081,11 @@ print_line_middle (const char *beg, const char *lim,
+           /* This function is called on a matching line only,
+              but is it selected or rejected/context?  */
+           if (only_matching)
+-            print_line_head (b, lim, (out_invert ? SEP_CHAR_REJECTED
+-                                      : SEP_CHAR_SELECTED));
++            {
++              char sep = out_invert ? SEP_CHAR_REJECTED : SEP_CHAR_SELECTED;
++              if (! print_line_head (b, match_size, lim, sep))
++                return NULL;
++            }
+           else
+             {
+               pr_sgr_start (line_color);
+@@ -1075,7 +1103,6 @@ print_line_middle (const char *beg, const char *lim,
+           if (only_matching)
+             fputs ("\n", stdout);
+         }
+-      cur = b + match_size;
+     }
+ 
+   if (only_matching)
+@@ -1086,8 +1113,8 @@ print_line_middle (const char *beg, const char *lim,
+   return cur;
+ }
+ 
+-static const char *
+-print_line_tail (const char *beg, const char *lim, const char *line_color)
++static char *
++print_line_tail (char *beg, const char *lim, const char *line_color)
+ {
+   size_t eol_size;
+   size_t tail_size;
+@@ -1108,14 +1135,15 @@ print_line_tail (const char *beg, const char *lim, const char *line_color)
+ }
+ 
+ static void
+-prline (char const *beg, char const *lim, char sep)
++prline (char *beg, char *lim, char sep)
+ {
+   bool matching;
+   const char *line_color;
+   const char *match_color;
+ 
+   if (!only_matching)
+-    print_line_head (beg, lim, sep);
++    if (! print_line_head (beg, lim - beg - 1, lim, sep))
++      return;
+ 
+   matching = (sep == SEP_CHAR_SELECTED) ^ out_invert;
+ 
+@@ -1135,7 +1163,11 @@ prline (char const *beg, char const *lim, char sep)
+     {
+       /* We already know that non-matching lines have no match (to colorize). */
+       if (matching && (only_matching || *match_color))
+-        beg = print_line_middle (beg, lim, line_color, match_color);
++        {
++          beg = print_line_middle (beg, lim, line_color, match_color);
++          if (! beg)
++            return;
++        }
+ 
+       if (!only_matching && *line_color)
+         {
+@@ -1169,7 +1201,7 @@ prpending (char const *lim)
+     lastout = bufbeg;
+   while (pending > 0 && lastout < lim)
+     {
+-      char const *nl = memchr (lastout, eolbyte, lim - lastout);
++      char *nl = memchr (lastout, eolbyte, lim - lastout);
+       size_t match_size;
+       --pending;
+       if (outleft
+@@ -1184,7 +1216,7 @@ prpending (char const *lim)
+ 
+ /* Output the lines between BEG and LIM.  Deal with context.  */
+ static void
+-prtext (char const *beg, char const *lim)
++prtext (char *beg, char *lim)
+ {
+   static bool used;	/* Avoid printing SEP_STR_GROUP before any output.  */
+   char eol = eolbyte;
+@@ -1192,7 +1224,7 @@ prtext (char const *beg, char const *lim)
+   if (!out_quiet && pending > 0)
+     prpending (beg);
+ 
+-  char const *p = beg;
++  char *p = beg;
+ 
+   if (!out_quiet)
+     {
+@@ -1218,7 +1250,7 @@ prtext (char const *beg, char const *lim)
+ 
+       while (p < beg)
+         {
+-          char const *nl = memchr (p, eol, beg - p);
++          char *nl = memchr (p, eol, beg - p);
+           nl++;
+           prline (p, nl, SEP_CHAR_REJECTED);
+           p = nl;
+@@ -1231,7 +1263,7 @@ prtext (char const *beg, char const *lim)
+       /* One or more lines are output.  */
+       for (n = 0; p < lim && n < outleft; n++)
+         {
+-          char const *nl = memchr (p, eol, lim - p);
++          char *nl = memchr (p, eol, lim - p);
+           nl++;
+           if (!out_quiet)
+             prline (p, nl, SEP_CHAR_SELECTED);
+@@ -1278,13 +1310,12 @@ zap_nuls (char *p, char *lim, char eol)
+    between matching lines if OUT_INVERT is true).  Return a count of
+    lines printed.  Replace all NUL bytes with NUL_ZAPPER as we go.  */
+ static intmax_t
+-grepbuf (char const *beg, char const *lim)
++grepbuf (char *beg, char const *lim)
+ {
+   intmax_t outleft0 = outleft;
+-  char const *p;
+-  char const *endp;
++  char *endp;
+ 
+-  for (p = beg; p < lim; p = endp)
++  for (char *p = beg; p < lim; p = endp)
+     {
+       size_t match_size;
+       size_t match_offset = execute (p, lim - p, &match_size, NULL);
+@@ -1295,15 +1326,15 @@ grepbuf (char const *beg, char const *lim)
+           match_offset = lim - p;
+           match_size = 0;
+         }
+-      char const *b = p + match_offset;
++      char *b = p + match_offset;
+       endp = b + match_size;
+       /* Avoid matching the empty line at the end of the buffer. */
+       if (!out_invert && b == lim)
+         break;
+       if (!out_invert || p < b)
+         {
+-          char const *prbeg = out_invert ? p : b;
+-          char const *prend = out_invert ? b : endp;
++          char *prbeg = out_invert ? p : b;
++          char *prend = out_invert ? b : endp;
+           prtext (prbeg, prend);
+           if (!outleft || done_on_match)
+             {
+@@ -1324,7 +1355,6 @@ static intmax_t
+ grep (int fd, struct stat const *st)
+ {
+   intmax_t nlines, i;
+-  enum textbin textbin;
+   size_t residue, save;
+   char oldc;
+   char *beg;
+@@ -1333,6 +1363,7 @@ grep (int fd, struct stat const *st)
+   char nul_zapper = '\0';
+   bool done_on_match_0 = done_on_match;
+   bool out_quiet_0 = out_quiet;
++  bool has_nulls = false;
+ 
+   if (! reset (fd, st))
+     return 0;
+@@ -1344,6 +1375,7 @@ grep (int fd, struct stat const *st)
+   after_last_match = 0;
+   pending = 0;
+   skip_nuls = skip_empty_lines && !eol;
++  encoding_error_output = false;
+   seek_data_failed = false;
+ 
+   nlines = 0;
+@@ -1356,26 +1388,20 @@ grep (int fd, struct stat const *st)
+       return 0;
+     }
+ 
+-  if (binary_files == TEXT_BINARY_FILES)
+-    textbin = TEXTBIN_TEXT;
+-  else
++  for (bool firsttime = true; ; firsttime = false)
+     {
+-      textbin = file_textbin (bufbeg, buflim - bufbeg, fd, st);
+-      if (textbin_is_binary (textbin))
++      if (!has_nulls && eol && binary_files != TEXT_BINARY_FILES
++          && (buf_has_nulls (bufbeg, buflim - bufbeg)
++              || (firsttime && file_must_have_nulls (buflim - bufbeg, fd, st))))
+         {
++          has_nulls = true;
+           if (binary_files == WITHOUT_MATCH_BINARY_FILES)
+             return 0;
+           done_on_match = out_quiet = true;
+           nul_zapper = eol;
+           skip_nuls = skip_empty_lines;
+         }
+-      else if (execute != Pexecute)
+-        textbin = TEXTBIN_TEXT;
+-    }
+ 
+-  for (;;)
+-    {
+-      input_textbin = textbin;
+       lastnl = bufbeg;
+       if (lastout)
+         lastout = bufbeg;
+@@ -1426,13 +1452,8 @@ grep (int fd, struct stat const *st)
+         }
+ 
+       /* Detect whether leading context is adjacent to previous output.  */
+-      if (lastout)
+-        {
+-          if (textbin == TEXTBIN_UNKNOWN)
+-            textbin = TEXTBIN_TEXT;
+-          if (beg != lastout)
+-            lastout = 0;
+-        }
++      if (beg != lastout)
++        lastout = 0;
+ 
+       /* Handle some details and read more data to scan.  */
+       save = residue + lim - beg;
+@@ -1445,22 +1466,6 @@ grep (int fd, struct stat const *st)
+           suppressible_error (filename, errno);
+           goto finish_grep;
+         }
+-
+-      /* If the file's textbin has not been determined yet, assume
+-         it's binary if the next input buffer suggests so.  */
+-      if (textbin == TEXTBIN_UNKNOWN)
+-        {
+-          enum textbin tb = buffer_textbin (bufbeg, buflim - bufbeg);
+-          if (textbin_is_binary (tb))
+-            {
+-              if (binary_files == WITHOUT_MATCH_BINARY_FILES)
+-                return 0;
+-              textbin = tb;
+-              done_on_match = out_quiet = true;
+-              nul_zapper = eol;
+-              skip_nuls = skip_empty_lines;
+-            }
+-        }
+     }
+   if (residue)
+     {
+@@ -1474,7 +1479,7 @@ grep (int fd, struct stat const *st)
+  finish_grep:
+   done_on_match = done_on_match_0;
+   out_quiet = out_quiet_0;
+-  if (textbin_is_binary (textbin) && !out_quiet && nlines != 0)
++  if ((has_nulls || encoding_error_output) && !out_quiet && nlines != 0)
+     printf (_("Binary file %s matches\n"), filename);
+   return nlines;
+ }
+diff --git a/src/grep.h b/src/grep.h
+index 580eb11..2e4527c 100644
+--- a/src/grep.h
++++ b/src/grep.h
+@@ -29,22 +29,4 @@ extern bool match_words;	/* -w */
+ extern bool match_lines;	/* -x */
+ extern char eolbyte;		/* -z */
+ 
+-/* An enum textbin describes the file's type, inferred from data read
+-   before the first line is selected for output.  */
+-enum textbin
+-  {
+-    /* Binary, as it contains null bytes and the -z option is not in effect,
+-       or it contains encoding errors.  */
+-    TEXTBIN_BINARY = -1,
+-
+-    /* Not known yet.  Only text has been seen so far.  */
+-    TEXTBIN_UNKNOWN = 0,
+-
+-    /* Text.  */
+-    TEXTBIN_TEXT = 1
+-  };
+-
+-/* Input file type.  */
+-extern enum textbin input_textbin;
+-
+ #endif
+diff --git a/src/pcresearch.c b/src/pcresearch.c
+index dc68345..c403032 100644
+--- a/src/pcresearch.c
++++ b/src/pcresearch.c
+@@ -194,32 +194,13 @@ Pexecute (char const *buf, size_t size, size_t *match_size,
+      error.  */
+   char const *subject = buf;
+ 
+-  /* If the input type is unknown, the caller is still testing the
+-     input, which means the current buffer cannot contain encoding
+-     errors and a multiline search is typically more efficient.
+-     Otherwise, a single-line search is typically faster, so that
+-     pcre_exec doesn't waste time validating the entire input
+-     buffer.  */
+-  bool multiline = input_textbin == TEXTBIN_UNKNOWN;
+-
+   for (; p < buf + size; p = line_start = line_end + 1)
+     {
+-      bool too_big;
+-
+-      if (multiline)
+-        {
+-          size_t pcre_size_max = MIN (INT_MAX, SIZE_MAX - 1);
+-          size_t scan_size = MIN (pcre_size_max + 1, buf + size - p);
+-          line_end = memrchr (p, eolbyte, scan_size);
+-          too_big = ! line_end;
+-        }
+-      else
+-        {
+-          line_end = memchr (p, eolbyte, buf + size - p);
+-          too_big = INT_MAX < line_end - p;
+-        }
+-
+-      if (too_big)
++      /* A single-line search is typically faster, so that
++         pcre_exec doesn't waste time validating the entire input
++         buffer.  */
++      line_end = memchr (p, eolbyte, buf + size - p);
++      if (INT_MAX < line_end - p)
+         error (EXIT_TROUBLE, 0, _("exceeded PCRE's line length limit"));
+ 
+       for (;;)
+@@ -247,27 +228,11 @@ Pexecute (char const *buf, size_t size, size_t *match_size,
+           int options = 0;
+           if (!bol)
+             options |= PCRE_NOTBOL;
+-          if (multiline)
+-            options |= PCRE_NO_UTF8_CHECK;
+ 
+           e = jit_exec (subject, line_end - subject, search_offset,
+                         options, sub);
+           if (e != PCRE_ERROR_BADUTF8)
+-            {
+-              if (0 < e && multiline && sub[1] - sub[0] != 0)
+-                {
+-                  char const *nl = memchr (subject + sub[0], eolbyte,
+-                                           sub[1] - sub[0]);
+-                  if (nl)
+-                    {
+-                      /* This match crosses a line boundary; reject it.  */
+-                      p = subject + sub[0];
+-                      line_end = nl;
+-                      continue;
+-                    }
+-                }
+-              break;
+-            }
++            break;
+           int valid_bytes = sub[0];
+ 
+           /* Try to match the string before the encoding error.  */
+@@ -339,15 +304,6 @@ Pexecute (char const *buf, size_t size, size_t *match_size,
+           beg = matchbeg;
+           end = matchend;
+         }
+-      else if (multiline)
+-        {
+-          char const *prev_nl = memrchr (line_start - 1, eolbyte,
+-                                         matchbeg - (line_start - 1));
+-          char const *next_nl = memchr (matchend, eolbyte,
+-                                        line_end + 1 - matchend);
+-          beg = prev_nl + 1;
+-          end = next_nl + 1;
+-        }
+       else
+         {
+           beg = line_start;
+diff --git a/tests/Makefile.am b/tests/Makefile.am
+index 37bb501..f1b8c43 100644
+--- a/tests/Makefile.am
++++ b/tests/Makefile.am
+@@ -70,6 +70,7 @@ TESTS =						\
+   empty						\
+   empty-line					\
+   empty-line-mb					\
++  encoding-error				\
+   epipe						\
+   equiv-classes					\
+   ere						\
+diff --git a/tests/encoding-error b/tests/encoding-error
+new file mode 100755
+index 0000000..fe52de2
+--- a/dev/null
++++ b/tests/encoding-error
+@@ -0,0 +1,41 @@
++#! /bin/sh
++# Test grep's behavior on encoding errors.
++#
++# Copyright 2015 Free Software Foundation, Inc.
++#
++# Copying and distribution of this file, with or without modification,
++# are permitted in any medium without royalty provided the copyright
++# notice and this notice are preserved.
++
++. "${srcdir=.}/init.sh"; path_prepend_ ../src
++
++require_en_utf8_locale_
++
++LC_ALL=en_US.UTF-8
++export LC_ALL
++
++printf 'Alfred Jones\n' > a || framework_failure_
++printf 'John Smith\n' >j || framework_failure_
++printf 'Pedro P\xe9rez\n' >p || framework_failure_
++cat a p j >in || framework_failure_
++
++fail=0
++
++grep '^A' in >out || fail=1
++compare a out || fail=1
++
++grep '^P' in >out || fail=1
++printf 'Binary file in matches\n' >exp || framework_failure_
++compare exp out || fail=1
++
++grep '^J' in >out || fail=1
++compare j out || fail=1
++
++grep '^X' in >out
++test $? = 1 || fail=1
++compare /dev/null out || fail=1
++
++grep -a . in >out || fail=1
++compare in out
++
++Exit $fail
+--
+cgit v0.9.0.2
+From 40ed879db22d57516a31fefd1c39416974b74ec4 Mon Sep 17 00:00:00 2001
+From: Paul Eggert <eggert@cs.ucla.edu>
+Date: Sat, 02 Jan 2016 05:16:12 +0000
+Subject: grep: fix bug with with invalid unibyte sequence
+
+This was introduced by the recent binary-data-detection changes.
+Problem reported by Norihiro Tanaka in: http://bugs.gnu.org/20526#86
+* src/grep.c (HIBYTE, easy_encoding, init_easy_encoding): Remove,
+replacing with ...
+(uword_max, unibyte_mask, initialize_unibyte_mask): ... this new
+constant, static var, and function.  All uses changed.  The
+unibyte_mask var generalizes the old local var hibyte_mask, which
+worked only for encodings where every byte with 0x80 turned off is
+a single-byte character.
+(buf_has_encoding_errors): Return false immediately if
+unibyte_mask is zero, not whether the current encoding is unibyte.
+The old test was incorrect in unibyte locales in which some bytes
+were encoding errors.
+* tests/pcre-z: Require UTF-8 locale, since the grep -z . test now
+needs this.  Use printf \0 rather than tr.  Port the 'grep -z .'
+test to platforms where the C locale says '\200' is an encoding
+error.  Use cmp rather than compare, as the file is binary and
+so non-GNU diff might not work.
+* tests/unibyte-binary: New file.
+* tests/Makefile.am (TESTS): Add it.
+---
+diff --git a/src/grep.c b/src/grep.c
+index 1207a76..a5f1fa2 100644
+--- a/src/grep.c
++++ b/src/grep.c
+@@ -484,21 +484,6 @@ clean_up_stdout (void)
+     close_stdout ();
+ }
+ 
+-/* The high-order bit of a byte.  */
+-enum { HIBYTE = 0x80 };
+-
+-/* True if every byte with HIBYTE off is a single-byte character.
+-   UTF-8 has this property.  */
+-static bool easy_encoding;
+-
+-static void
+-init_easy_encoding (void)
+-{
+-  easy_encoding = true;
+-  for (int i = 0; i < HIBYTE; i++)
+-    easy_encoding &= mbclen_cache[i] == 1;
+-}
+-
+ /* A cast to TYPE of VAL.  Use this when TYPE is a pointer type, VAL
+    is properly aligned for TYPE, and 'gcc -Wcast-align' cannot infer
+    the alignment and would otherwise complain about the cast.  */
+@@ -517,21 +502,33 @@ init_easy_encoding (void)
+ /* An unsigned type suitable for fast matching.  */
+ typedef uintmax_t uword;
+ 
++/* All bytes that are not unibyte characters, ANDed together, and then
++   with the pattern repeated to fill a uword.  For an encoding where
++   all bytes are unibyte characters, this is 0.  For UTF-8, this is
++   0x808080....  For encodings where unibyte characters have no useful
++   pattern, this is all 1s.  The unsigned char C is a unibyte
++   character if C & UNIBYTE_MASK is zero.  If the uword W is the
++   concatenation of bytes, the bytes are all unibyte characters
++   if W & UNIBYTE_MASK is zero.  */
++static uword unibyte_mask;
++
++static void
++initialize_unibyte_mask (void)
++{
++  unsigned char mask = UCHAR_MAX;
++  for (int i = 1; i <= UCHAR_MAX; i++)
++    if (mbclen_cache[i] != 1)
++      mask &= i;
++  uword uword_max = -1;
++  unibyte_mask = uword_max / UCHAR_MAX * mask;
++}
++
+ /* Skip the easy bytes in a buffer that is guaranteed to have a sentinel
+    that is not easy, and return a pointer to the first non-easy byte.
+-   In easy encodings, the easy bytes all have HIBYTE off.
+-   In other encodings, no byte is easy.  */
++   The easy bytes all have UNIBYTE_MASK off.  */
+ static char const * _GL_ATTRIBUTE_PURE
+ skip_easy_bytes (char const *buf)
+ {
+-  if (!easy_encoding)
+-    return buf;
+-
+-  uword uword_max = -1;
+-
+-  /* 0x8080..., extended to be wide enough for uword.  */
+-  uword hibyte_mask = uword_max / UCHAR_MAX * HIBYTE;
+-
+   /* Search a byte at a time until the pointer is aligned, then a
+      uword at a time until a match is found, then a byte at a time to
+      identify the exact byte.  The uword search may go slightly past
+@@ -539,11 +536,11 @@ skip_easy_bytes (char const *buf)
+   char const *p;
+   uword const *s;
+   for (p = buf; (uintptr_t) p % sizeof (uword) != 0; p++)
+-    if (*p & HIBYTE)
++    if (to_uchar (*p) & unibyte_mask)
+       return p;
+-  for (s = CAST_ALIGNED (uword const *, p); ! (*s & hibyte_mask); s++)
++  for (s = CAST_ALIGNED (uword const *, p); ! (*s & unibyte_mask); s++)
+     continue;
+-  for (p = (char const *) s; ! (*p & HIBYTE); p++)
++  for (p = (char const *) s; ! (to_uchar (*p) & unibyte_mask); p++)
+     continue;
+   return p;
+ }
+@@ -554,7 +551,7 @@ skip_easy_bytes (char const *buf)
+ static bool
+ buf_has_encoding_errors (char *buf, size_t size)
+ {
+-  if (MB_CUR_MAX <= 1)
++  if (! unibyte_mask)
+     return false;
+ 
+   mbstate_t mbs = { 0 };
+@@ -2592,7 +2589,7 @@ main (int argc, char **argv)
+     usage (EXIT_TROUBLE);
+ 
+   build_mbclen_cache ();
+-  init_easy_encoding ();
++  initialize_unibyte_mask ();
+ 
+   /* In a unibyte locale, switch from fgrep to grep if
+      the pattern matches words (where grep is typically faster).
+diff --git a/tests/Makefile.am b/tests/Makefile.am
+index f349aa3..a38303c 100644
+--- a/tests/Makefile.am
++++ b/tests/Makefile.am
+@@ -133,6 +133,7 @@ TESTS =						\
+   turkish-I-without-dot				\
+   turkish-eyes					\
+   two-files					\
++  unibyte-binary				\
+   unibyte-bracket-expr				\
+   unibyte-negated-circumflex			\
+   utf8-bracket					\
+diff --git a/tests/pcre-z b/tests/pcre-z
+index 6bbde94..4ce9a93 100755
+--- a/tests/pcre-z
++++ b/tests/pcre-z
+@@ -2,10 +2,11 @@
+ # Test Perl regex with NUL-separated input
+ . "${srcdir=.}/init.sh"; path_prepend_ ../src
+ require_pcre_
++require_en_utf8_locale_
+ 
+ REGEX=a
+ 
+-printf "%s\n0" abc def ghi aaa gah | tr 0 \\0 > in
++printf '%s\n\0' abc def ghi aaa gah > in || framework_failure_
+ 
+ grep -z "$REGEX" in > exp 2>err || fail_ 'Cannot do BRE (grep -z) match.'
+ compare /dev/null err || fail_ 'stderr not empty on grep -z.'
+@@ -20,8 +21,8 @@ grep -Pz "$REGEX" in > out 2>err || fail=1
+ compare exp out || fail=1
+ compare /dev/null err || fail=1
+ 
+-printf '\200\0' >in0
+-LC_ALL=C grep -z . in0 >out || fail=1
+-compare in0 out || fail=1
++printf '\303\200\0' >in0 # "À" followed by a NUL.
++LC_ALL=en_US.UTF-8 grep -z . in0 >out || fail=1
++cmp in0 out || fail=1
+ 
+ Exit $fail
+diff --git a/tests/unibyte-binary b/tests/unibyte-binary
+new file mode 100755
+index 0000000..78735b8
+--- a/dev/null
++++ b/tests/unibyte-binary
+@@ -0,0 +1,28 @@
++#!/bin/sh
++# Test binary files in unibyte locales with encoding errors
++
++# Copyright 2016 Free Software Foundation, Inc.
++
++# This program is free software: you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation, either version 3 of the License, or
++# (at your option) any later version.
++
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++
++. "${srcdir=.}/init.sh"; path_prepend_ ../src
++require_unibyte_locale
++
++fail=0
++
++printf 'a\n\200\nb\n' >in || framework_failure_
++printf 'a\nBinary file in matches\n' >exp || framework_failure_
++grep . in >out || fail=1
++compare exp out || fail=1
++Exit $fail
+--
+cgit v0.9.0.2
