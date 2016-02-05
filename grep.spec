@@ -14,18 +14,17 @@ Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
 Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	2.22
-Release:	2
+Version:	2.23
+Release:	1
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
 Source0:	http://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
-# Source0-md5:	e1015e951a49a82b02e38891026ef5df
+# Source0-md5:	f46aa9d0d2577b9212a104348a286787
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-pl.po-update.patch
-Patch2:		grep-enc-errors.patch
 URL:		http://www.gnu.org/software/grep/grep.html
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.11
@@ -90,9 +89,6 @@ kullanılır.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-
-%patch2 -p1
-chmod +x tests/encoding-error tests/unibyte-binary
 
 %{__rm} po/stamp-po
 
