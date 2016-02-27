@@ -1,0 +1,20 @@
+--- grep-2.23/tests/Makefile.am~	2016-01-03 20:53:59.000000000 +0100
++++ grep-2.23/tests/Makefile.am	2016-02-27 19:47:27.625473158 +0100
+@@ -30,6 +30,9 @@
+ # FIXME-2015: Remove this once the glibc and gnulib bugs are fixed.
+ XFAIL_TESTS = triple-backref
+ 
++# Unstable test
++XFAIL_TESTS += long-pattern-perf
++
+ # Equivalence classes are only supported when using the system
+ # matcher (which means only with glibc).
+ # The included matcher needs to be fixed.
+@@ -92,7 +95,6 @@
+   khadafy					\
+   kwset-abuse					\
+   long-line-vs-2GiB-read			\
+-  long-pattern-perf				\
+   match-lines					\
+   max-count-overread				\
+   max-count-vs-context				\
