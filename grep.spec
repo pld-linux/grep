@@ -15,7 +15,7 @@ Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
 Version:	2.26
-Release:	1
+Release:	2
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
@@ -106,7 +106,11 @@ kullanılır.
 	--without-included-regex
 %{__make}
 
-%{?with_tests:%{__make} -j1 check-expensive}
+%if %{with tests}
+# mksh fails "unset columns" check (bash and pdksh are OK)
+%{__make} -j1 check-expensive \
+	SHELL=/bin/bash
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
