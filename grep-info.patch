@@ -7,8 +7,8 @@
 -@dircategory Text creation and manipulation
 +@dircategory File utilities:
  @direntry
--* grep: (grep).                 Print lines matching a pattern.
-+* grep: (grep).				Print lines matching a pattern
+-* grep: (grep).                 Print lines that match patterns.
++* grep: (grep).				Print lines that match patterns
  @end direntry
  
  @titlepage
