@@ -14,20 +14,20 @@ Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
 Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	3.3
+Version:	3.4
 Release:	1
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
-Source0:	http://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
-# Source0-md5:	05d0718a1b7cc706a4bdf8115363f1ed
+Source0:	https://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
+# Source0-md5:	111b117d22d6a7d049d6ae7505e9c4d2
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-pl.po-update.patch
 Patch2:		disable-unstable-test.patch
 URL:		http://www.gnu.org/software/grep/grep.html
-BuildRequires:	autoconf >= 2.59
+BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	gettext-tools >= 0.18.2
 %{?with_pcre:BuildRequires:	pcre-devel}
@@ -149,7 +149,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc NEWS README ChangeLog TODO
+%doc AUTHORS ChangeLog NEWS README THANKS TODO
 %config(noreplace) %verify(not md5 mtime size) /etc/shrc.d/grep.*sh
 %attr(755,root,root) %{_bindir}/egrep
 %attr(755,root,root) %{_bindir}/fgrep
