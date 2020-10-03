@@ -9,12 +9,3 @@
  "      --binary-files=TYP    założenie, że pliki binarne są typu TYP\n"
  "                            TYP to „binary”, „text” lub „without-match”.\n"
  "  -a, --text                równoważne --binary-files=text\n"
-@@ -573,7 +573,7 @@
- "                              symbolicznymi\n"
- 
- #: src/grep.c:1970
--#, fuzzy, c-format
-+#, c-format
- msgid ""
- "      --include=GLOB        search only files that match GLOB (a file "
- "pattern)\n"
