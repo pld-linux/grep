@@ -1,6 +1,7 @@
---- grep-2.5.4/doc/grep.texi~	2009-02-11 22:18:48.574650826 +0100
-+++ grep-2.5.4/doc/grep.texi	2009-02-11 22:19:50.404383538 +0100
-@@ -29,9 +29,9 @@
+diff -urNp -x '*.orig' grep-3.6.org/doc/grep.texi grep-3.6/doc/grep.texi
+--- grep-3.6.org/doc/grep.texi	2020-11-03 21:37:02.000000000 +0100
++++ grep-3.6/doc/grep.texi	2021-03-19 21:13:07.105627234 +0100
+@@ -43,9 +43,9 @@ Texts.  A copy of the license is include
  @end quotation
  @end copying
  

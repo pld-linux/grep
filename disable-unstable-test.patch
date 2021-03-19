@@ -1,26 +1,7 @@
---- grep-2.23/tests/Makefile.am~	2016-01-03 20:53:59.000000000 +0100
-+++ grep-2.23/tests/Makefile.am	2016-02-27 19:47:27.625473158 +0100
-@@ -30,6 +30,9 @@
- # FIXME-2015: Remove this once the glibc and gnulib bugs are fixed.
- XFAIL_TESTS = triple-backref
- 
-+# Unstable test
-+XFAIL_TESTS += long-pattern-perf
-+
- # Equivalence classes are only supported when using the system
- # matcher (which means only with glibc).
- # The included matcher needs to be fixed.
-@@ -92,7 +95,6 @@
-   khadafy					\
-   kwset-abuse					\
-   long-line-vs-2GiB-read			\
--  long-pattern-perf				\
-   many-regex-performance			\
-   match-lines					\
-   max-count-overread				\
---- grep-3.6/gnulib-tests/gnulib.mk~	2020-11-01 18:25:08.000000000 +0100
-+++ grep-3.6/gnulib-tests/gnulib.mk	2021-01-03 17:20:28.534114089 +0100
-@@ -278,9 +278,9 @@
+diff -urNp -x '*.orig' grep-3.6.org/gnulib-tests/gnulib.mk grep-3.6/gnulib-tests/gnulib.mk
+--- grep-3.6.org/gnulib-tests/gnulib.mk	2020-11-01 18:25:08.000000000 +0100
++++ grep-3.6/gnulib-tests/gnulib.mk	2021-03-19 21:13:08.100627234 +0100
+@@ -278,9 +278,9 @@ EXTRA_DIST += test-ctype.c
  
  ## begin gnulib module dfa-tests
  
@@ -31,3 +12,24 @@
    test-dfa-match.sh
  
  check_PROGRAMS += test-dfa-match-aux
+diff -urNp -x '*.orig' grep-3.6.org/tests/Makefile.am grep-3.6/tests/Makefile.am
+--- grep-3.6.org/tests/Makefile.am	2020-11-03 21:37:02.000000000 +0100
++++ grep-3.6/tests/Makefile.am	2021-03-19 21:13:08.100627234 +0100
+@@ -49,6 +49,9 @@ LDADD = ../lib/libgreputils.a $(LIBINTL)
+ # FIXME-2015: Remove this once the glibc and gnulib bugs are fixed.
+ XFAIL_TESTS = triple-backref
+ 
++# Unstable test
++XFAIL_TESTS += long-pattern-perf
++
+ # Equivalence classes are only supported when using the system
+ # matcher (which means only with glibc).
+ # The included matcher needs to be fixed.
+@@ -119,7 +122,6 @@ TESTS =						\
+   khadafy					\
+   kwset-abuse					\
+   long-line-vs-2GiB-read			\
+-  long-pattern-perf				\
+   many-regex-performance			\
+   match-lines					\
+   max-count-overread				\

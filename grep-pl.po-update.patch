@@ -1,6 +1,7 @@
---- grep-3.4/po/pl.po.orig	2020-01-07 20:38:23.152238576 +0100
-+++ grep-3.4/po/pl.po	2020-01-07 20:42:12.480996195 +0100
-@@ -544,7 +544,7 @@
+diff -urNp -x '*.orig' grep-3.6.org/po/pl.po grep-3.6/po/pl.po
+--- grep-3.6.org/po/pl.po	2020-11-09 05:37:13.000000000 +0100
++++ grep-3.6/po/pl.po	2021-03-19 21:13:07.576627234 +0100
+@@ -540,7 +540,7 @@ msgid ""
  msgstr ""
  "  -o, --only-matching       pokazanie tylko niepustych części linii, które\n"
  "                              pasują\n"
