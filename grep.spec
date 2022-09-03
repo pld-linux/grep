@@ -14,13 +14,13 @@ Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
 Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	3.7
+Version:	3.8
 Release:	1
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
 Source0:	https://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
-# Source0-md5:	7c9cca97fa18670a21e72638c3e1dabf
+# Source0-md5:	dc6e4d18d4659e6e7552fc4a183c8ac9
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
@@ -30,7 +30,7 @@ URL:		http://www.gnu.org/software/grep/grep.html
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	gettext-tools >= 0.18.2
-%{?with_pcre:BuildRequires:	pcre-devel}
+%{?with_pcre:BuildRequires:	pcre2-8-devel}
 BuildRequires:	pkgconfig >= 1:0.9.0
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	texinfo
