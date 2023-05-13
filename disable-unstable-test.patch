@@ -16,8 +16,8 @@ diff -urNp -x '*.orig' grep-3.6.org/tests/Makefile.am grep-3.6/tests/Makefile.am
 --- grep-3.6.org/tests/Makefile.am	2020-11-03 21:37:02.000000000 +0100
 +++ grep-3.6/tests/Makefile.am	2021-03-19 21:13:08.100627234 +0100
 @@ -49,6 +49,9 @@ LDADD = ../lib/libgreputils.a $(LIBINTL)
- # FIXME-2015: Remove this once the glibc and gnulib bugs are fixed.
- XFAIL_TESTS = triple-backref
+ # FIXME-2025: Remove this once the glibc and gnulib bugs are fixed.
+ XFAIL_TESTS += glibc-infloop
  
 +# Unstable test
 +XFAIL_TESTS += long-pattern-perf

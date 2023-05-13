@@ -14,13 +14,13 @@ Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
 Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	3.10
+Version:	3.11
 Release:	1
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
 Source0:	https://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
-# Source0-md5:	ab3f063ad4596b7d094fb5f66cf327d6
+# Source0-md5:	7c9bbd74492131245f7cdb291fa142c0
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
