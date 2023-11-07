@@ -1,0 +1,21 @@
+Description: Fixes gnulib "Operation not supported" error when grepping -r
+ directories with more than 100000 files.
+ The bug is already fixed in the upstream development branch.
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1041588
+Author: Vincent Lefevre <vincent@vinc17.net>
+Forwarded: not-needed
+
+diff -Naurd grep-3.11-orig/m4/dirfd.m4 grep-3.11/m4/dirfd.m4
+--- grep-3.11~/m4/dirfd.m4	2023-04-29 11:03:00.000000000 +0200
++++ grep-3.11/m4/dirfd.m4	2023-07-21 19:40:41.345044696 +0200
+@@ -40,10 +40,6 @@
+     HAVE_DIRFD=0
+   else
+     HAVE_DIRFD=1
+-    dnl Replace only if the system declares dirfd already.
+-    if test $ac_cv_have_decl_dirfd = yes; then
+-      REPLACE_DIRFD=1
+-    fi
+     dnl Replace dirfd() on native Windows, to support fdopendir().
+     AC_REQUIRE([gl_DIRENT_DIR])
+     if test $DIR_HAS_FD_MEMBER = 0; then
