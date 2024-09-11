@@ -29,8 +29,8 @@ Patch2:		disable-unstable-test.patch
 # check and drop with grep 3.12+
 Patch3:         %{name}-dirfd.patch
 URL:		http://www.gnu.org/software/grep/grep.html
-BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.11
+BuildRequires:	autoconf >= 2.64
+BuildRequires:	automake >= 1:1.12
 BuildRequires:	gettext-tools >= 0.18.2
 %{?with_pcre:BuildRequires:	pcre2-8-devel}
 BuildRequires:	pkgconfig >= 1:0.9.0
