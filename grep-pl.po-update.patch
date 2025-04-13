@@ -5,7 +5,7 @@ diff -urNp -x '*.orig' grep-3.6.org/po/pl.po grep-3.6/po/pl.po
  msgstr ""
  "  -o, --only-matching       pokazanie tylko niepustych części linii, które\n"
  "                              pasują\n"
--"  -q, --quiet, --silent     wyłączenie wypisywanie wyniku\n"
+-"  -q, --quiet, --silent     wyłączenie wypisywania wyniku\n"
 +"  -q, --quiet, --silent     wyłączenie zwykłego wyjścia\n"
  "      --binary-files=TYP    założenie, że pliki binarne są typu TYP\n"
  "                            TYP to „binary”, „text” lub „without-match”.\n"

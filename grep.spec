@@ -14,20 +14,18 @@ Summary(ru.UTF-8):	Утилиты поиска по шаблонам GNU grep
 Summary(tr.UTF-8):	Dosyalarda katar arama aracı
 Summary(uk.UTF-8):	Утиліти пошуку по шаблонам GNU grep
 Name:		grep
-Version:	3.11
-Release:	2
+Version:	3.12
+Release:	1
 Epoch:		2
 License:	GPL v3+
 Group:		Applications/Text
 Source0:	https://ftp.gnu.org/gnu/grep/%{name}-%{version}.tar.xz
-# Source0-md5:	7c9bbd74492131245f7cdb291fa142c0
+# Source0-md5:	5d9301ed9d209c4a88c8d3a6fd08b9ac
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	1b5e726d0bee53e898531de4a76ad290
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-pl.po-update.patch
 Patch2:		disable-unstable-test.patch
-# check and drop with grep 3.12+
-Patch3:         %{name}-dirfd.patch
 URL:		http://www.gnu.org/software/grep/grep.html
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.12
@@ -94,7 +92,6 @@ kullanılır.
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
-%patch -P3 -p1
 
 %{__rm} po/stamp-po
 
